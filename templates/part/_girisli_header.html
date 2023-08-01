@@ -1,0 +1,150 @@
+{% load static %}
+
+
+<!-- header start -->
+<header>
+  <div class="container-fluid">
+
+    <nav class="navbar navbar-expand-lg navbar-dark pe-3">
+      <div class="container ">
+        <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="toggler-icon top-bar"></span>
+          <span class="toggler-icon middle-bar"></span>
+          <span class="toggler-icon bottom-bar"></span>
+        </button>
+        <a href="{% url 'index' profil.id %}"><img src="{% static 'img/header-footer-img/Group 54.png' %}" alt=""></a>
+        <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
+          <ul class="navbar-nav mb-2 mb-lg-0" style="display: flex; justify-content: center;">
+            <li class="nav-item">
+              <a class="nav-link"style="margin-left: 0.5rem;" href="{% url 'index' profil.id %}">ANASAYFA</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-uppercase" style="margin-left: 3rem;" href="/Moviex/{{ profil.id }}/Film">FİLM</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-uppercase" style="margin-left: 3rem;" href="/Moviex/{{ profil.id }}/Dizi">DİZİ</a>
+            </li>
+          </ul>
+          
+          <form class="d-flex" role="search" action="{% url 'searchMovies' profil.id %}" method="GET">
+            <input class="form-control me-2" name="q" placeholder="Search" aria-label="Search">
+            <button class="btn search-button" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+          </form>
+        </div>
+
+        <div class="d-flex user_control">
+          <div class="d-flex user-settings-icon">
+            <div class="notification mx-0">
+              <!-- Button trigger modal -->
+              <button type="button" class="btn" data-mdb-toggle="modal" data-mdb-target="#notificationModal">
+                <i class="fa-solid fa-bell"></i>
+              </button>
+
+              <!-- Modal -->
+              <div class="modal fade notificationModal" id="notificationModal" tabindex="-1" aria-labelledby="notificationModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <!-- modal title -->
+                      <h5 class="modal-title" id="notificationModalLabel">Bildirimler</h5>
+                      <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      {% for message in messages %}
+                          <div class="alert alert-info">
+                              {{ message }}
+                          </div>
+                      {% endfor %}
+                  </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn" data-mdb-dismiss="modal">KAPAT</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            // AJAX isteği yaparak bildirimleri getiren fonksiyon
+            const fetchNotifications = () => {
+              fetch("{% url 'notifications' %}")
+                .then(response => response.json())
+                .then(data => {
+                  const notificationsList = document.getElementById("notifications-list");
+
+                  // Bildirim listesini temizle
+                  notificationsList.innerHTML = "";
+
+                  // Bildirimleri döngüyle eklendi
+                  data.notifications.forEach(notification => {
+                    const li = document.createElement("li");
+                    li.innerText = notification.icerik;
+                    notificationsList.appendChild(li);
+                  });
+                })
+                .catch(error => {
+                  console.log("Bildirimler alınamadı:", error);
+                });
+            };
+
+            // Bildirimleri getir
+            window.addEventListener("DOMContentLoaded", fetchNotifications);
+          </script>
+
+<div class="dropdown profile-dropdown">
+  <div class="profile-dropdown-btn d-flex" data-bs-toggle="dropdown" aria-expanded="false" onclick="toggle()">
+    <div class="profile-img">
+      {% if profil.image %}
+      <img src="{{ profil.image.url }}" alt="" width="50px">
+      {% else %}
+      <img src="{% static 'img/profile/logo-p1.png' %}" alt="" width="50px">
+      {% endif %}
+    </div>
+    {% if profil.name %}
+    <span class="text-light ms-2 fs-5 align-self-center">{{ profil.name }}</span>
+    {% else %}
+    <span class="text-light ms-2 fs-5 align-self-center">{{ request.user }}</span>
+    {% endif %}
+  </div>
+  <ul class="dropdown-menu dropdown-menu-center profile-dropdown-list">
+    <li><a class="dropdown-item profile-dropdown-list-item" href="{% url 'ProfileEdit' profil.id %}">Profil</a></li>
+    <li><a class="dropdown-item profile-dropdown-list-item" href="{% url 'Account' profil.id %}">Hesap</a></li>
+    <li><a class="dropdown-item profile-dropdown-list-item" href="{% url 'AddList' profil.id %}">Liste</a></li>
+    <li><a class="dropdown-item profile-dropdown-list-item" href="{% url 'ContactUswithpid' profil.id %}">Yardım</a></li>
+    <li><a class="dropdown-item profile-dropdown-list-item" href="{% url 'ProfileUser' %}">Profil Değiştir</a></li>
+    <hr>
+    <li><a class="dropdown-item profile-dropdown-list-item" href="{% url 'LogoutUser' %}">Çıkış</a></li>
+  </ul>
+</div>
+
+
+        </div>
+      </div>
+    </nav>
+  </div>
+
+
+
+
+</header>
+<!-- header end -->
+
+{% block js %}
+
+<!-- profile dropdown js -->
+<script>
+  let profileDropdownList = document.querySelector(".profile-dropdown-list");
+  let btn = document.querySelector(".profile-dropdown-btn");
+
+
+  const toggle = () => profileDropdownList.classList.toggle("active");
+
+  window.addEventListener('click', function (e) {
+    if (!btn.contains(e.target)) profileDropdownList.classList.remove('active');
+  });
+</script>
+{% endblock js %}

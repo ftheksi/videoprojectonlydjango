@@ -1,0 +1,492 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Profil{% endblock title %}
+
+
+{% block css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    a {
+        color: white !important;
+        text-decoration: none !important;
+    }
+
+    .profile_CT {
+        margin-left: 40px;
+        margin-right: 40px;
+        background-color: #092032;
+        position: relative;
+        color: #EFEFEF;
+        font-family: 'Poppins', sans-serif;
+
+    }
+
+    .form-floating>label {
+        font-size: 14px !important;
+    }
+
+    .profile_CT .profile-table {
+        background-color: #2C394A;
+        border: 2px solid #205375;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        padding-bottom: 20px;
+    }
+
+    .profile_CT .profile-table .profile-list {
+        margin-top: 1rem;
+        padding: 1rem;
+    }
+
+    .profile_CT .profile-table .profile-list li {
+        display: inline-block;
+        text-align: center;
+        list-style: none;
+        padding: 0.5rem;
+    }
+
+    .profile_CT .profile-table .profile-list .profile-avatar,
+    .profile_CT .profile-table .profile-list .add-profile {
+        max-height: 100px;
+        max-width: 100px;
+        min-height: 84px;
+        min-width: 84px;
+        border-radius: 20px;
+        -webkit-border-radius: 20px;
+        -moz-border-radius: 20px;
+        -ms-border-radius: 20px;
+        -o-border-radius: 20px;
+        transition: all 0.45s ease-out;
+        -webkit-transition: all 0.45s ease-out;
+        -moz-transition: all 0.45s ease-out;
+        -ms-transition: all 0.45s ease-out;
+        -o-transition: all 0.45s ease-out;
+    }
+
+    .profile_CT .profile-table .profile-list .profile-avatar:hover,
+    .profile_CT .profile-table .profile-list .add-profile:hover {
+        border: 3px solid white;
+        transform: scale(1.1);
+        -webkit-transform: scale(1.1);
+        -moz-transform: scale(1.1);
+        -ms-transform: scale(1.1);
+        -o-transform: scale(1.1);
+    }
+
+    @media (max-width: 429px) {
+
+        .profile_CT .profile-table .profile-list .profile-avatar,
+        .profile_CT .profile-table .profile-list .add-profile {
+            max-width: 90px;
+        }
+    }
+
+    .profile_CT .profile-table .profile-list .add-profile {
+        max-height: 70px;
+        max-width: 70px;
+        min-height: 58px;
+        min-width: 58px;
+        border-radius: 50px;
+        -webkit-border-radius: 50px;
+        -moz-border-radius: 50px;
+        -ms-border-radius: 50px;
+        -o-border-radius: 50px;
+        transition: all 0.45s ease-out;
+        -webkit-transition: all 0.45s ease-out;
+        -moz-transition: all 0.45s ease-out;
+        -ms-transition: all 0.45s ease-out;
+        -o-transition: all 0.45s ease-out;
+    }
+
+    .profile_CT .profile-table .profile-list .profile-name {
+        margin-top: 0.5rem;
+    }
+
+    .profile_CT .profile-table .profile-list .profile-name:after {
+        display: block;
+        content: "";
+        height: 2px;
+        width: 0%;
+        background-color: #fff;
+        transition: 0.3s ease-in-out;
+        -webkit-transition: 0.3s ease-in-out;
+        -moz-transition: 0.3s ease-in-out;
+        -ms-transition: 0.3s ease-in-out;
+        -o-transition: 0.3s ease-in-out;
+    }
+
+    .profile_CT .profile-table .profile-list .profile-name:hover:after,
+    .profile_CT .profile-table .profile-list .profile-name:focus:after {
+        width: 100%;
+    }
+
+    .profile_CT .profile-table .profile-edit-button {
+        background-color: #205375;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 600;
+        outline: 0;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s;
+        -moz-user-select: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .profile_CT .profile-table .profile-edit-button::before {
+        background-color: initial;
+        background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+        content: "";
+        left: 4%;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        transition: all 0.3s;
+    }
+
+    .profile_CT .profile-table .profile-edit-button:hover {
+        box-shadow: rgba(255, 255, 255, 0.2) 0 3px 15px inset, rgba(0, 0, 0, 0.1) 0 3px 5px, rgba(0, 0, 0, 0.1) 0 10px 13px;
+    }
+
+    .profile_CT .profile-table .add-profile-modal {
+        background-color: #2C394A;
+        border: 2px solid #205375;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+        padding-bottom: 20px;
+    }
+
+    .profile_CT .profile-table .add-profile-modal .profile-avatar {
+        border: 2px solid #205375;
+    }
+
+    .profile_CT .profile-table .add-profile-modal .profil-edit-btn {
+        position: absolute;
+        top: 27px;
+        left: 80px;
+        z-index: 50;
+        color: #fff;
+        background-color: rgba(157, 154, 154, 0.5921568627);
+        padding: 0.125rem 0.375rem;
+    }
+
+    @media (max-width: 576.98px) {
+        .profile_CT {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+    @media (max-width:768px) {
+        .profil-foto{
+            margin-left: 11rem;
+        }
+    }
+    @media (max-width:576px) {
+        .profil-foto{
+            margin-left: 11rem;
+        }
+    }
+    input[type=radio] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+    input[type=radio] + label:hover{
+        opacity: 50%;
+    }
+    .logo {
+        position: fixed;
+        top: 45px;
+        left: 135px;
+        z-index: 99;
+        transition: opacity 0.1s;
+      }
+  
+      .logo.hidden {
+        opacity: 0;
+      }
+
+
+</style>
+
+{% endblock css %}
+
+{% block nonheader %}
+{% for i in messages %}
+{% if i.tags == "success" %}
+<div class="alert alert-success alert-dismissible fade show fw-bold" role="alert"
+    style="position: fixed; top: 100px; left: 50px; z-index: 99; min-width: 350px !important; width: fit-content;">
+    {{ i }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% if i.tags == "warning" %}
+<div class="alert alert-danger alert-dismissible fade show fw-bold" role="alert"
+    style="position: fixed; top: 100px; left: 90px; z-index: 99; min-width: 350px !important; width: fit-content;">
+    {{ i }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <a href="{% url 'indexPage' %}"><img src="{% static 'img/header-footer-img/Group 54.png' %}" alt="" class="logo"
+                    style="position: fixed; top: 45px; left: 135px; z-index: 99;"></a>
+        </div>
+        <script>
+            window.addEventListener('scroll', function() {
+              var logo = document.querySelector('.logo');
+              var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        
+              if (scrollPosition > 0) {
+                logo.classList.add('hidden');
+              } else {
+                logo.classList.remove('hidden');
+              }
+            });
+          </script>
+    </div>
+    <img src="{% static 'img/new-user-img/back-top.png' %}"
+        style="position: fixed; top: 0; left: 0; width: 100%; max-height: 300px; z-index: -5;">
+    <img src="{% static 'img/new-user-img/back-down.png' %}"
+        style=" position: fixed; bottom: 0;left: 0; width: 100%; max-height: 300px; z-index: -5;">
+
+    <section class="profile_CT" style="height: 100vh;">
+        <div class="d-flex justify-content-center vh-100">
+            <div class="col-11 col-md-8 align-self-center p-3 profile-table">
+                <h3 class="text-center fw-bold">~~ Kim izliyor ? ~~</h3>
+                <ul class="profile-list text-center" id="profil-list">
+                    {% for i in profils %}
+                    <li>
+                        <div class="position-relative">
+                            <a href="{% url 'index' i.id %}">
+                                {% if i.image %}
+                                    <img src="{{ i.image.url }}" class="card-img-top profil-image" style="width: 100px; height: 100px; object-fit: cover;">
+                                {% else %}
+                                    <img src="{% static 'img/profile/logo-p1.png' %}" style="width: 100px; height: 100px;">
+                                {% endif %}
+                            </a>
+                        
+                            {% if i.name != "Çocuk" %}
+                            <!-- MODAL BUTTON -->
+                            <i data-bs-toggle="modal" data-bs-target="#add-profile-modal{{ i.id }}" class="fas fa-pencil-alt profilEdit border p-1 bg-dark opacity-75" style="position: absolute; top: 0; left: 0; cursor: pointer; border-radius: 50%; display: none;"></i> 
+                            <!-- PROFIL DÜZENLEME MODAL -->
+                        <div class="modal fade" id="add-profile-modal{{ i.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="add-profile-modal" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content add-profile-modal">
+                                        <div class="modal-header d-block border-0">
+                                            <h2 class="modal-title">Profil Düzenle</h2>
+                                        </div>     
+                                        <div class="modal-body">
+                                            <form class="row g-3" method="POST" enctype="multipart/form-data">
+                                                {% csrf_token %}
+                                            <!-- PROFİL FOTOĞRAFLARI CONTAİNER -->
+                                            <div class="bg-dark bg-opacity-50 p-3 fotocontainer d-none" style="position: absolute; right: 100%; top: -250px; ">
+                                                <div class="row">
+                                                    {% for j in profilfoto %}
+                                                    {% if i.id == 19 %}
+                                                    {% else %}
+                                                        <div class="col-3">
+                                                            <input id="myRadio{{ j.id }}{{ i.id }}" type="radio" name="newimage" value="{{ j.id }}">
+                                                            <label for="myRadio{{ j.id }}{{ i.id }}" style="cursor: pointer;">
+                                                                <img src="{{ j.image.url }}" alt="" style="width: 100px; height: 100px;" onclick="profilFoto(this)" class="profilfotocontainer">
+                                                            </label>
+                                                        </div>
+                                                        {% endif %}
+                                                        {% endfor %}
+                                                </div>
+                                            </div>
+                                            <!-- PROFİL FOTOĞRAFI -->
+                                                <div class="col-md-3 position-relative">  
+                                                    <img src="{{ i.image.url }}" style="width: 100px; height: 100px; cursor: pointer" class="profilfoto" onclick="profilfotoEdit(this)">
+                                                    <!-- PROFİL FOTOĞRAFI EKLEME -->
+                                                    <i class="fas fa-pencil-alt text-light border p-1 bg-dark bg-opacity-75" style="cursor: pointer;position: absolute; top: 0; right: 12px;" onclick="profilfotoEdit(this)"></i>
+                                                </div>
+                                                <div class="col-md-9">
+                                                    <div class="col-12">
+                                                        <input type="text" class="form-control p-3" name="newname" value="{{ i.name }}">
+                                                    </div>
+                                                    <div class="modal-footer d-flex justify-content-evenly border-0">
+                                                        <input type="hidden" name="profilid" value="{{ i.id }}">
+                                                        <button type="submit" name="submit" value="profile-edit" class="btn profile-edit-button px-3">Kaydet</button>
+                                                        <a class="btn text-dark btn-light px-4" data-bs-dismiss="modal" onclick="iptalModal()" style="font-size: 18px; font-weight: 600;">İptal</a>
+                                                    </div>
+                                                </div>     
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- PROFİL DELETE -->
+                            <a href="{% url 'ProfileDel' i.id %}" type="button" class="btn btn-close  profilEdit" style="position: absolute; top: 0; left: 75px; cursor: pointer;display: none;border-radius: 50%; background-color: white !important;"></a>
+                        </div>
+                            {% endif %}
+                            <!-- PROFİL NAME -->
+                        {% if i.name %}
+                        <div class="profile-name"><a href="#">{{ i.name }}</a></div>
+                        {% else %}
+                        <div class="profile-name"><a href="#">{{ request.user.username }}</a></div>
+                        {% endif %}       
+                    </li>
+                    {% endfor %}
+                    <!-- PROFİL EKLEME BUTONU -->
+                    
+                    {% if profils|length == 4 %}
+                    {% else %}
+                    <li>
+                        <div style="padding-bottom: 15px;">
+                            <a href="#" class="btn">
+                                <img class="add-profile" src="{% static 'img/profile/add-profile.png' %}" alt="profil ekle" data-bs-toggle="modal" data-bs-target="#add-profile-modal">
+                            </a>
+                        </div>
+                        <div class="profile-name" id="ProfilAdd" >Profil Ekle</div>
+                    </li>    
+                    {% endif %}
+                        
+
+                        
+                </ul>
+                <!-- PROFİL DÜZENLEME BUTON -->
+                <div class="d-flex justify-content-center py-5">
+                    <button onclick="profilEdit()" class="btn profile-edit-button mx-auto ">
+                        Profilleri Düzenle
+                    </button>
+                </div>
+                <!-- PROFIL EKLEME -->
+                <div class="modal fade" id="add-profile-modal" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-labelledby="add-profile-modal" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content add-profile-modal">
+                            <div class="modal-header d-block border-0">
+                                <h2 class="modal-title">Profil Ekle</h2>
+                                <h5>MovieX izlemek için profil oluşturun..</h5>
+                            </div>
+                            <div class="modal-body">
+                                <form class="row g-3" method="POST" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <!-- PROFİL FOTO CONTAİNER -->     
+                                <div class="bg-dark bg-opacity-50 p-3 fotocontainer d-none" id="myElement1" style="position: absolute; right: 100%; top: -250px;">
+                                    <div class="row">
+                                        {% for i in profilfoto %}
+                                        {% if i.id == 19 %}
+                                            {% else %}
+                                            <div class="col-3">
+                                                <input id="myRadio{{ i.id }}" type="radio" name="newimage" value="{{ i.id }}">
+                                                    <label for="myRadio{{ i.id }}" style="cursor: pointer;">
+                                                        <img src="{{ i.image.url }}" alt="" style="width: 100px; height: 100px;" onclick="profilFotoChange(this)" class="profilfotocontainer">
+                                                    </label>
+                                            </div>    
+                                            {% endif %}
+                                         {% endfor %}
+                                    </div>
+                                </div>
+                                    <div class="col-md-3 position-relative">
+                                        <!-- PROFİL FOTOĞRAFI -->
+                                                <img src="/media/logo-p1.png" id="Profil-Foto-Buton" onclick="profilfotoAdd(this)" style="width: 100px; height: 100px; cursor: pointer;" class="profil-foto"> 
+                                                <i class="fas fa-pencil-alt text-light border p-1 bg-dark bg-opacity-75" style="cursor: pointer;position: absolute; top: 0; right: 12px;"></i>
+                                        <!-- PROFİL FOTOĞRAFI EKLEME -->
+                                    </div>
+                                    <div class="col-md-9">
+                                        <div class="col-md-10 form-floating m-auto">
+                                            <!-- PROFİL ADI -->
+                                            <input type="text" class="form-control" id="profil-name-input" placeholder="profil adı" name="profilname" required>
+                                            <label for="profil-name-input" class="form-label text-dark">Profil
+                                                Adı</label>
+                                        </div>
+                                        <div class="modal-footer d-flex justify-content-evenly border-0">
+                                            <button type="submit" name="submit" value="profile-add" class="btn profile-edit-button px-3">Profil Ekle</button>
+                                            <a class="btn text-dark btn-light px-4" data-bs-dismiss="modal" style="font-size: 18px; font-weight: 600;">İptal</a>
+                                        </div>
+                                    </div>     
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+     /* Profil Kaldırma ve Düzenleme Butonları */
+     var changeEdit = true;
+     const profilEdit = ()=>{
+         const profilEdit = document.querySelectorAll(".profilEdit");
+         if (changeEdit == true){
+             profilEdit.forEach(e=>{
+                 e.style.display = "block";
+             })
+         }else{
+             profilEdit.forEach(e=>{
+                 e.style.display = "none";
+             })
+ 
+         }
+         changeEdit = !changeEdit;
+     }
+ 
+ 
+ 
+ 
+ 
+ 
+ /* PROFİL DÜZENLEME */
+ const profilfotoEdit = (e)=>{
+     window.globale = e;
+     const profilfotoedit = document.querySelectorAll(".fotocontainer");
+     
+     profilfotoedit.forEach(e=>{
+         e.classList.toggle("d-none")
+     })
+ }
+ 
+ 
+ /* PROFİL DÜZENLEME */
+ const profilFoto = (e) => {
+     globale.src = e.src;
+ };
+ 
+ 
+ /* Profil Ekleme Resimlerin Açılması */
+ const profilfotoAdd = (e)=>{
+     console.log(e);
+     const element = document.getElementById("myElement1");
+     element.classList.toggle("d-none") ;
+     window.elementadd = e;
+ }
+ 
+ /* Profil ekleme */
+ const profilFotoChange = (e) => {
+     console.log(e);
+     elementadd.src = e.src
+ };
+ 
+ /* iptal ederken açık olan modalları kapatma */
+ const iptalModal = () => {
+     const profilfotoedit = document.querySelectorAll(".fotocontainer");
+     profilfotoedit.forEach(e => {
+         e.classList.add("d-none")
+     })
+ 
+ }
+</script>
+
+{% endblock nonheader %}

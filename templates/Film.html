@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/girisli_index-style.css' %}">
+
+{% endblock css %}
+    
+
+
+{% block body %}
+<div class="container-fluid p-0">
+    <div class="banner" id="banner">
+        
+        <video id="video" class="banner" autoplay muted loop controls>
+            <source src="{{ movies.0.fragman.url }}" type="video/mp4">
+        </video>        
+            
+         <div class="banner__contents">
+            <h2 class="banner__title">Code-8</h2>
+            <div class="banner__infos d-flex mt-1">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                
+                <p class="ms-1 banner__date mt-3">2019</p>
+                <i class="fa-regular fa-clock ms-3 mt-3"></i>
+                <p class="banner__time ms-1 mt-3">1sa 14dk</p>
+
+            </div>
+            <div class="banner__desc">
+                
+Süper güçlü bir inşaat işçisi, hasta annesine yardım etmek için para toplamak amacıyla bir grup suçlunun arasına düşer.
+            </div>
+
+        </div>
+    </div>
+</div>
+{% comment %} Card {% endcomment %}
+{% include 'part/_card.html' %} 
+
+{% endblock body %}

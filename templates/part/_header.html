@@ -1,0 +1,36 @@
+
+{% load static %}
+
+
+<!-- Header Start -->
+<header>
+    <div class="header-title">
+        <h1>
+            <a href="{% url 'indexPage' %}"><img src="{% static 'img/header-footer-img/Group 54.png' %}" alt=""></a>
+        </h1>
+    </div>
+    <div class="login-register-button">
+        <nav class="navbar navbar-expand-lg" style="margin-top: 8px;">
+            <ul>
+                <li class="header-button-login">
+                    <a href="{% url 'LoginUser' %}" type="submit" class="btn">GİRİŞ</a>
+                </li>
+                <li class="header-button-register">
+                    <a href="{% url 'RegisterUser' %}" type="submit" class="btn">KAYIT OL</a>
+                </li>
+                <li class="language-text">
+
+                    <i class="fa-solid fa-globe text-white"></i>
+                    <select class="text-center text-white">
+                        <option value="">TR</option>
+                        <option value="">EN</option>
+                    </select>
+
+                </li>
+            </ul>
+        </nav>
+    </div>
+</header>
+<!-- Header End -->
+
+    

@@ -1,0 +1,278 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Profil{% endblock title %}
+
+
+{% block css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    .profile_edit {
+        margin-left: 40px;
+        margin-right: 40px;
+        background-color: #092032;
+        position: relative;
+        height: 100vh;
+        color: #EFEFEF;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .profil_edit-table {
+        background-color: #2C394A;
+        border: 2px solid #205375;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    .hr {
+        background-color: #949494;
+    }
+
+    .image-edit-btn {
+        position: absolute;
+        top: 1px;
+        right: 1.5px;
+        z-index: 50;
+        color: #fff;
+        border-radius: 5px;
+        cursor: pointer;
+        padding: 5px 7px;
+    }
+
+    .spacial-img-size {
+        min-width: 100px;
+        width: 150px;
+        border: 2px solid #205375;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    .profile_edit .form-floating>label {
+        font-size: 14px !important;
+        color: #212529
+    }
+
+    .profile_edit .profile-edit-button {
+        background-color: #205375;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 600;
+        outline: 0;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s;
+        -moz-user-select: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .profile_edit .profile-edit-button::before {
+        background-color: initial;
+        background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+        content: "";
+        left: 4%;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        transition: all 0.3s;
+    }
+
+    .profile_edit .profile-edit-button:hover {
+        box-shadow: rgba(255, 255, 255, 0.2) 0 3px 15px inset, rgba(0, 0, 0, 0.1) 0 3px 5px, rgba(0, 0, 0, 0.1) 0 10px 13px;
+    }
+
+
+    .form-floating option {
+        background-color: #092032 !important;
+        color: #fff !important;
+    }
+    input[type=radio] {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+      }
+    input[type=radio] + label:hover{
+        opacity: 50%;
+    }
+</style>
+
+{% endblock css %}
+
+{% block body %}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col">
+            <a href="{% url 'index' profil.id %}"><img src="{% static 'img/header-footer-img/Logo.png' %}" alt="" style="position: fixed; top: 45px; left: 100px; z-index: 99;"></a>
+        </div>
+    </div>
+    <img src="{% static 'img/new-user-img/back-top.png' %}"
+        style="position: fixed; top: 0; left: 0; width: 100%; max-height: 300px; z-index: -5;">
+    <img src="{% static 'img/new-user-img/back-down.png' %}"
+        style=" position: fixed; bottom: 0;left: 0; width: 100%; max-height: 300px; z-index: -5;">
+
+    <section class="profile_edit">
+
+
+        <form method="POST">
+            {% csrf_token %}
+        <div class="d-flex vh-100 w-100">
+            <div class="col-4 d-flex justify-content-center align-items-center flex-column">
+                
+                {% for i in profils %}
+                    <div class="d-flex align-items-center bg-dark bg-opacity-50 p-3">
+                        <img src="{{ i.image.url }}" alt="" style="width: 100px; height: 100px;">
+                        <div class="d-flex justify-content-between align-items-center w-100">
+                            <p class="ms-3 mb-0">{{ i.name }}</p>
+                            <a href="/ProfileEdit/{{i.id}}" type="button" class=" btn btn text-white fw-bold profile-edit-button ms-5">Düzenle ></a>
+                        </div>
+                    </div>
+                    <hr class="m-0">
+                {% endfor %}
+                    
+            </div>
+            <div class="col col-sm-10 col-md-8 col-lg-6 align-self-center p-3 profil_edit-table">
+
+                <h3 class="text-center mt-lg-5 fw-bold">~~ Profilinizi Düzenleyin ~~</h3>
+                <hr class="hr"/>
+                <div class="row">
+                    <div class="col-3 mx-auto ">
+                        <div class="d-flex">
+                            <div class="position-relative mb-3">
+                                <img class="spacial-img-size img-fluid profilfoto2 border-0" src="{{ profil.image.url }}"
+                                    alt="" onclick="profilfotoEdit()" style="cursor: pointer;">
+                                    <i class="bi bi-pencil border bg-dark opacity-75 image-edit-btn" data-bs-toggle="modal"
+                                    data-bs-target="#profile-edit-modal" onclick="profilfotoEdit()"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PROFİL FOTOĞRAFLARI CONTAİNER -->
+                    <div class="bg-dark bg-opacity-50 p-3 fotocontainer w-25" style="position: absolute; left: 8.4%; top: 25%; z-index: 99;display: none;">
+                        <div class="row">
+                            {% for i in profilfoto %}
+                            <div class="col-3">
+                                <input id="myRadio{{ i.id }}" type="radio" name="newimage" value="{{ i.id }}">
+                                <label for="myRadio{{ i.id }}" style="cursor: pointer;">
+                                    <img src="{{ i.image.url }}" alt="{{ i.title }}" style="width: 100px; height: 100px;" onclick="profilFoto()" class="profilfotocontainer2">
+                                </label>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9 px-2 settings">
+                        <div class="d-flex justify-content-between  align-items-center">
+                                <div class="row g-3">
+                                    <div class="col-12">
+                                        <div class="form-floating ">
+                                            <input type="text" name="name" class="form-control" id="nameInput" value="{{ profil.name }}">
+                                            <label for="floatingInput">Profil Adınız</label>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-12">
+                                        <div class="form-floating">
+                                            <input type="password" name="password" class="form-control"
+                                                id="floatingPassword" placeholder="Şifre">
+                                            <label for="floatingPassword">Profil Kilidi</label>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-12">
+                                        <div class="form-floating custom-select ">
+                                            <select class="form-select " name="spectator" id="floatingSelect"
+                                                aria-label="Floating label" required>
+                                                <option>{{ profil.spectator }}</option>
+                                                <option disabled></option>
+                                                <option>Genel İzleyici</option>
+                                                <option>7+</option>
+                                                <option>13+</option>
+                                                <option>18+</option>
+                                            </select>
+                                            <label for="floatingSelect">Yetişkinlik Düzeyi</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-floating">
+                                            <select class="form-select" name="language" id="floatingSelect"
+                                                aria-label="Floating label">
+                                                <option>{{ profil.language }}</option>
+                                                <option disabled></option>
+                                                <option>Türkçe</option>
+                                                <option>English</option>
+                                            </select>
+                                            <label for="floatingSelect">Profil Dili</label>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-12">
+                                        <div class="form-floating">
+                                            <select class="form-select" name="next-chapter" id="floatingSelect"
+                                                aria-label="Floating label">
+                                                <option value="1">Evet</option>
+                                                <option value="2">Hayır</option>
+                                            </select>
+                                            <label for="floatingSelect">Sonraki bölüm otomatik başlatma</label>
+                                        </div>
+                                    </div> -->
+                                    <div class=" col-10 d-flex justify-content-between mx-auto">
+                                            <button type="submit" name="submit" value="profileSave" class="btn text-white fw-bold profile-edit-button mb-1 " 
+                                            style="padding:0 90px ;">Kaydet</button> 
+                                            <a href="{% url 'index' profil.id %}"
+                                            class="btn text-white fw-bold profile-edit-button mb-1"
+                                            type="submit">Geri Dön</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+
+</div>
+<script>
+    const profilFoto = () => {
+        const profilfotocontainer2 = document.querySelectorAll(".profilfotocontainer2");
+        const profilfoto2 = document.querySelector(".profilfoto2");
+      
+        profilfotocontainer2.forEach((e) => {
+          e.addEventListener("click", (event) => {
+            const selectedImage = event.target.src;
+            profilfoto2.src = selectedImage;
+          });
+        });
+      };
+
+      var changeEdit = true;
+    const profilfotoEdit = ()=>{
+        const profilfotoEdit = document.querySelectorAll(".fotocontainer");
+        if (changeEdit == true){
+            profilfotoEdit.forEach(e=>{
+                e.style.display = "block";
+            })
+        }else{
+            profilfotoEdit.forEach(e=>{
+                e.style.display = "none";
+            })
+
+        }
+        changeEdit = !changeEdit;
+    }
+
+
+</script>
+
+{% endblock body %}

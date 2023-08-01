@@ -1,0 +1,298 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+	<style>
+        .product-detail p{
+            color: #EFEFEF;
+        }
+		.checked {
+			color: orange;
+		  }
+		.icon-shape {
+			display: inline-flex;
+			align-items: center;
+			justify-content: center;
+			text-align: center;
+			vertical-align: middle;
+			
+		}
+		
+		.icon-sm {
+			width: 2rem;
+			height: 2rem;
+			
+		}
+		.card {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			min-width: 0;
+			padding: 20px;
+			width: 100%;
+			word-wrap: break-word;
+			background-color: black;
+			background-clip: border-box;
+			border-radius: 6px;
+			-moz-box-shadow: 0px 0px 5px 0px rgba(212, 182, 212, 1)
+		}
+		
+		.comment-box{
+			
+			padding:5px;
+		}
+		
+		
+		
+		.comment-area textarea{
+		   resize: none; 
+				
+		}
+		
+		
+		.form-control:focus {
+			color: #495057;
+			background-color: #fff;
+			border-color: #ffffff;
+			outline: 0;
+			box-shadow: 0 0 0 1px rgb(255, 123, 0) !important;
+		}
+		
+		.send {
+			color: #fff;
+			background-color: #ffd900;
+			border-color: #ffd900;
+		}
+		
+		.send:hover {
+			color: #fff;
+			background-color: #f50202;
+			border-color: #f50202;
+		}
+		
+		
+		.rating {
+		    display: flex;
+		    margin-top: -10px;
+			flex-direction: row-reverse;
+			margin-left: -4px;
+			float: left;
+			
+			
+		}
+		
+		.rating>input {
+			display: none
+		}
+
+		.star,.star-full{
+			position: relative;
+			width: 30px;
+			font-size: 30px;
+			color: red;
+			cursor: pointer;
+		}
+
+		.star-full::before{
+			content: "\2605";
+			position: absolute;
+			opacity: 1;
+		}
+		
+		.rating>label {
+			position: relative;
+			width: 30px;
+			font-size: 30px;
+			color: red;
+			cursor: pointer;
+			
+		}
+		
+		.rating>label::before {
+			content: "\2605";
+			position: absolute;
+			opacity: 0
+		}
+		
+		.rating>label:hover:before,
+		.rating>label:hover~label:before {
+			opacity: 1 !important
+		}
+		
+		.rating>input:checked~label:before {
+			opacity: 1
+		}
+		
+		.rating:hover>input:checked~label:before {
+			opacity: 0.4
+		}
+	</style>
+{% endblock css %}
+	
+
+{% block body %}
+
+
+<section class="padding-large">
+	<div class="container">
+		<div class="row mt-3">
+			<h2 class="text-light mb-3">{{ series.title }}</h2>
+			<div class="col-md-6">
+				<a href="#" class="product-image"><img style="width: 100%; height: 500px;" src="{{ series.image.url }}"></a>
+			</div>
+			<div method="POST" class="col-md-6 pl-5">
+				{% csrf_token %}
+				<div class="product-detail">
+						<div class="mb-3">
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star checked"></span>
+							<span class="fa fa-star"></span>
+							<span class="fa fa-star"></span>
+							<span class="text-light">Rating </span>
+						</div>
+					<p>{{ series.text }} </p>
+					<p>Oyuncular: {{ series.cast }} </p>
+					<p>Yönetmen: {{ series.director }} </p>
+					<p>Senarist: {{ series.writers }} </p>
+					
+					{% for v in video %}
+					<p class="d-inline-block">{{ v.sezon }} Sezon</p>		
+					<p class="d-inline-block">{{ v.bölüm }} Bölüm</p>
+						
+					{% endfor %}
+						
+					{% for subcategory in series.subcategory.all %}
+					<p>Tür: {{ subcategory.title }}</p>
+					
+					{% endfor %}
+					{% for moviemaker in series.moviemaker.all %}
+					<p>{{ moviemaker.title }}</p>	
+					{% endfor %}
+				</div>
+			</div>
+			<hr class="mt-3 text-light">
+			<div>
+					{% for v in video %}
+					<a class="btn btn-dark text-light d-inline-block">{{ v.sezon }}. Sezon</a>		
+					{% endfor %}
+				</div>
+			<div class="col-3 mt-3">
+				{% for v in video %}
+					<div class="d-flex flex-column">
+						<a href="/Moviex/{{ profil.id }}/WatchSeries/{{ v.id }}" class="product-image d-inline"><img style="width: 250px; height: 200px;" src="{{ series.image.url }}"></a>
+						<div>
+							<p class="text-light d-inline-block mt-2">{{ v.sezon }}. Sezon</p>		
+							<p class="text-light d-inline-block">{{ v.bölüm }}. Bölüm</p>	
+						</div>
+					</div>	
+				{% endfor %}	
+
+			</div>	
+			<div>
+				<h1 class="text-light">Fragman</h1>
+				<video id="video" class="banner w-100" loop controls>
+					<source src="{{ series.fragman.url }}" type="video/mp4">
+				</video>
+			</div>
+		</div>
+	</div>
+</section>
+
+	
+
+	
+<!-- .... -->
+<div class="container">
+	<div class="row">
+		<div class="col-12">
+			<h4 style="font-size: 24px; font-weight: bold; color: #EFEFEF;">Yorumlar</h4>
+			<div class="card">
+				
+				{% for i in comments  %}
+				<div class="row">	
+					<div class="col-2 d-flex flex-column align-items-center">
+						<img src="https://i.imgur.com/xELPaag.jpg" width="70%" class="rounded-circle mt-2">
+						<h4 style="font-size: 20px; font-weight: bold;" class="pt-3">{{ i.user }}</h4>
+					</div>
+					
+					<div class="col-10">
+						<div class="comment-box ml-2">											
+							<div class="rating"> 
+
+							{% for j in "54321"|make_list %}
+							
+								{% if j|add:"0" > i.star %}
+									<div class="star">☆</div>
+								{% else %}
+									<div class="star-full">☆</div>
+								{% endif %}
+										
+							{% endfor %}
+							
+								
+							</div>
+							<hr class="mb-0" style="visibility: hidden;">
+							<div class="comment-area ms-2 d-flex justify-content-between">	
+								<p>{{ i.text }}</p>
+								<span>{{ i.date_now }}</span>				
+							</div>
+							
+						
+						</div>
+					</div>
+				
+				</div>
+				
+				{% endfor %}
+					  
+	  
+			</div>
+		</div>
+		<h4 style="font-size: 24px; font-weight: bold; color: #EFEFEF;">Yorum Ekle</h4>
+		<div class="col-12">
+			<div class="card ">  
+				<div class="row">	
+					<div class="col-2 d-flex flex-column align-items-center">
+						<img src="https://i.imgur.com/xELPaag.jpg" width="70%" class="rounded-circle mt-2">
+						<h4 style="font-size: 20px; font-weight: bold; color: #EFEFEF;" class="pt-3">{{ request.user }}</h4>
+					</div>
+					
+					<div class="col-10">
+						<form method="POST" class="comment-box ml-2">		
+							{% csrf_token %}
+							<div class="rating"> 
+								<input type="radio" name="star" value="5" id="5"><label for="5">☆</label>
+								<input type="radio" name="star" value="4" id="4"><label for="4">☆</label> 
+								<input type="radio" name="star" value="3" id="3"><label for="3">☆</label>
+								<input type="radio" name="star" value="2" id="2"><label for="2">☆</label>
+								<input type="radio" name="star" value="1" id="1"><label for="1">☆</label>
+							</div>
+							
+							<div class="comment-area">	
+								<textarea style="height: auto;" class="form-control" name="text" placeholder="Yorumunuz..." rows="4"></textarea>				
+							</div>
+							
+							<div class="comment-btns mt-2">				
+								<div class="row">				
+									<div class="col-6">				
+										<div class="pull-left">						
+										    <button type="submit" style="font-size: 15px; letter-spacing: 1px;" name="submit" value="comment" class="btn btn-warning ms-2 ">Paylaş</button>      				
+										</div>				
+									</div>
+									
+								</div>
+							</div>
+						</form>
+					</div>
+				
+				</div>
+	  
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock body %}
+	

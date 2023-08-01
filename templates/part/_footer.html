@@ -1,0 +1,83 @@
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
+{% endblock css %}
+
+<footer>
+    <div class="container mt-5" style="background-color: #c0c0c042;">
+        <div class="row justify-content-around footer-menu">
+            <div class="col-lg-2 col-md-3 col-5">
+                <ul>
+                    {% if profil %}
+                    <li><a href="{% url 'SssPagewithpid' profil.id %}">SSS</a></li>
+                    <li><a href="{% url 'ContactUswithpid' profil.id %}">Bize Ulaşın</a></li>
+                    {% else %}
+                    <li><a href="{% url 'SssPage' %}">SSS</a></li>
+                    <li><a href="{% url 'ContactUs' %}">Bize Ulaşın</a></li>
+
+                    {% endif %}
+                    <li><a href="#">Yatırım İlişkileri</a></li>
+                    <li><a href="#">Kullanım Koşulları</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-3 col-5">
+                <ul>
+                    <li><a href="#">Yardım Merkezi</a></li>
+                    <li><a href="#">İş İmkanları</a></li>
+                    <li><a href="#">Gizlilik</a></li>
+                    <li><a href="#">Hız Testi</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-3 col-5">
+                <ul>
+                    
+                    {% if profil %}
+                        
+                    <li><a href="{% url 'Account' profil.id %}">Hesap</a></li>
+                    {% else %}
+                    <li><a href="{% url 'LoginUser' %}">Hesap</a></li>
+
+                    {% endif %}
+                        
+                    <li><a href="#">Hediye Kartı Kullan</a></li>
+                    <li><a href="#">Çerez Tercihleri</a></li>
+                    <li><a href="#">Yasal Hükümler</a></li>
+                </ul>
+            </div>
+            <div class="col-lg-2 col-md-3 col-5">
+                <ul>
+                    <li><a href="#">Medya Merkezi</a></li>
+                    <li><a href="#">İzleme Yolları</a></li>
+                    <li><a href="#">Kurumsal Bilgiler</a></li>
+                    <li><a href="#">Sadece Moviex'te</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row d-flex justify-content-center">
+            <div class="col-sm-6 col-md-4 dil d-flex">
+                <i class="fa-solid fa-globe" style="color: #EFEFEF; align-self: center; margin-right: 6px;"></i>
+                <select style="color:#EFEFEF">
+                    <option value="tr-TR">Türkçe</option>
+                    <option value="en">English</option>
+                </select>
+            </div>
+
+
+
+            <div class="col-sm-6 col-md-4 social">
+                <ul class="d-flex">
+                    <li><a href="#"><i class="fa-brands fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa-brands fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+                    <li><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
+                    <li><a href="#"><i class="fa-brands fa-linkedin-in"></i></a></li>
+                </ul>
+            </div>
+            <div class="col-sm-6 col-md-4 bottom-text">
+                <p>© 2023 <span>MOVIEX</span> ve bağlı kuruluşları. Tüm hakları saklıdır.</p>
+            </div>
+        </div>
+    </div>
+</footer>

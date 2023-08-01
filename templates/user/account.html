@@ -1,0 +1,383 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}account{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    .account_CT {
+        background-color: #092032;
+        position: relative;
+        height: 100vh;
+        color: #EFEFEF;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .account_CT .account-table {
+        background-color: #2C394A;
+        border: 2px solid #205375;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    .account_CT .account-table .edit-button,
+    .cancel-button {
+        background-color: #205375;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 600;
+        outline: 0;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s;
+        -moz-user-select: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .account_CT .account-table .edit-button::before,
+    .cancel-button::before {
+        background-color: initial;
+        background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+        content: "";
+        left: 4%;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        transition: all 0.3s;
+    }
+
+    .account_CT .account-table .edit-button:hover,
+    .cancel-button:hover {
+        box-shadow: rgba(255, 255, 255, 0.2) 0 3px 15px inset, rgba(0, 0, 0, 0.1) 0 3px 5px, rgba(0, 0, 0, 0.1) 0 10px 13px;
+    }
+
+    .account_CT .account-table .cancel-button:hover {
+        background-color: brown;
+    }
+
+
+    .account-form label {
+        color: #EFEFEF;
+        text-decoration: underline;
+    }
+    .input-group-append{
+        cursor: pointer;
+    }
+
+    @media (max-width: 576.98px) {
+        .account_CT {
+            margin-left: 0;
+            margin-right: 0;
+        }
+    }
+</style>
+
+{% endblock css %}
+
+
+{% block body %}
+
+{% for i in messages %}
+{% if i.tags == "success" %}
+<div class="alert alert-success alert-dismissible fade show fw-bold" role="alert"
+    style="position: fixed; bottom: 50px; right: 50px; z-index: 1050; min-width: 350px !important; width: fit-content;">
+    {{ i }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+{% if i.tags == "warning" %}
+<div class="alert alert-danger alert-dismissible fade show fw-bold" role="alert"
+    style="position: fixed; bottom: 50px; right: 50px; z-index: 1050; min-width: 350px !important; width: fit-content;">
+    {{ i }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}
+<div class="container-fluid"  style="padding: 0 4%;">
+    <img src="{% static 'img/new-user-img/back-top.png' %}"
+        style="position: fixed; top: 0; left: 0; width: 100%; max-height: 300px; z-index: -5;">
+    <img src="{% static 'img/new-user-img/back-down.png' %}"
+        style=" position: fixed; bottom: 0;left: 0; width: 100%; max-height: 300px; z-index: -5;">
+    <section class="account_CT h-100">
+        <div class="row py-5 h-100">
+            <div class="d-flex justify-content-center">
+                <div class="col col-sm-10 col-md-8 col-lg-6 align-self-center p-3 account-table">
+                    <h3 class="text-center fw-bold">~~ Hesap Ayarları ~~</h3>
+
+                    <form action="" method="POST" class="account-form">
+                        {% csrf_token %}
+                        <div class=" row g-3">
+                            <h5>Hesap Bilgileri</h5>
+
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="name-edit" class="form-label">Adınız :</label>
+                                    <input type="text" name="name-edit" class="form-control" id="name_edit"
+                                        value="{{ request.user.first_name }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="sname-edit" class="form-label">Soyadınız :</label>
+                                    <input type="text" name="sname-edit" class="form-control" id="sname_edit"
+                                        value="{{ request.user.last_name }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="username-edit" class="form-label">Kullanıcı Adınız :</label>
+                                    <input type="text" name="username-edit" class="form-control" id="username_edit"
+                                        value="{{ request.user.username }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="mail-edit" class="form-label">E-posta Adresiniz :</label>
+                                    <input type="mail" name="email-edit" class="form-control" id="mail_edit"
+                                        value="{{ request.user.email }}">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="mb-3">
+                                    <label for="tel-edit" class="form-label">Telefon Numaranız :</label>
+                                    <input type="tel" name="tel-edit" class="form-control" id="tel_edit"
+                                        value="{{ userinfo.tel }}"> 
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label for="date" class="col-form-label">Doğum Tarihi</label>
+                                <div class="input-group date" id="">
+                                  <input type="date" name="dogum_tarihi" class="form-control" value="{{ userinfo.dogum_tarihi|date:'Y-m-d' }}" id="date"/>
+                                  <span class="input-group-append">
+                                    <span class="input-group-text bg-light d-block">
+                                      <i class="fa fa-calendar"></i>
+                                    </span>
+                                </span>
+                            </div>
+                            </div>
+                            
+                            <div class="d-flex justify-content-evenly border-0">
+                                <p><span style="color:#FF4C29; font-weight:bold;">Üyelik Bilgisi :</span> {{ userinfo.package }}</p>
+                                <!-- <button type="submit" name="submit" value="edit-account" id="edit_account"
+                                    class="btn btn-dark btn-outline-light px-3">Güncelle</button> -->
+                                <a href="{% url 'Account' profil.id %}" type="submit" name="save" value="accountSave" class="btn edit-button px-4"
+                                    style="font-size: 18px; font-weight: 600;" data-bs-toggle="modal"
+                                    data-bs-target="#saveprofil">KAYDET</a>
+                                <!-- profil kaydet Modal -->
+                                <div class="modal fade" id="saveprofil" data-bs-backdrop="static"
+                                    data-bs-keyboard="false" tabindex="-1" aria-labelledby="saveprofilLabel"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <p class="modal-title text-black" style="font-size: 1rem;">
+                                                    Değişikliğinin kaydedilmesi için şifrenizi girin</p>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <input type="password" name="password1" class="form-control"
+                                                    placeholder="şifrenizi girin">
+                                            </div>
+                                            <div class="modal-footer mx-auto">
+                                                <button type="submit" name="save" value="accountSave" class="btn btn-secondary edit-button"
+                                                    data-bs-dismiss="modal">KAYDET</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                        <h5 class="text-center">Şifre Değiştir</h5>
+                        <form action="" method="POST" class="password-form">
+                            {% csrf_token %}
+                            <div class="col-sm-7 m-auto" style="position: relative;">
+                                <div class="mb-2" >
+                                    <label for="password-edit" class="form-label ">Eski Şifreniz :</label>
+                                    <input type="password" name="old-password" class="form-control password" id="password-edit"
+                                        placeholder="Eski Şifreniz" >
+                                    <i class="bi bi-eye text-dark fs-4" style="position: absolute; top: 50%; right: 5px; cursor: pointer; display: none;" onclick="showPword()" id="bi-eye"></i>
+                                    <i class="bi bi-eye-slash text-dark fs-4" style="position: absolute; top: 50%; right: 5px; cursor: pointer;" onclick="showPword()" id="bi-eye-slash"></i>
+                                </div>
+                            </div>
+                            <div class="col-sm-7 m-auto" style="position: relative;">
+                                <div class="col-12">
+                                    <p><span class="text-danger">*</span> Şifreniz en az 6 karakterden oluşmalıdır!</p>
+                                    <p><span class="text-danger">*</span> Şifreniz en az 1 rakam içermelidir!</p>
+                                    <p><span class="text-danger">*</span> Şifreniz en az 1 tane büyük harf içermelidir!</p>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="password-edit" class="form-label ">Yeni Şifreniz :</label>
+                                    <input type="password" name="new-password" class="form-control password1"
+                                        id="password-edit" placeholder="Yeni Şifreniz">
+                                        <i class="bi bi-eye text-dark fs-4" style="position: absolute; top: 50%; right: 5px; cursor: pointer; display: none;" onclick="showPword1()" id="bi-eye1"></i>
+                                    <i class="bi bi-eye-slash text-dark fs-4" style="position: absolute; top: 80%; right: 5px; cursor: pointer;" onclick="showPword1()" id="bi-eye-slash1"></i>
+                                </div>
+                            </div>
+                            <div class="col-sm-7 m-auto" style="position: relative;">
+                                <div class="mb-3">
+                                    <label for="password-edit" class="form-label ">Yeni Şifrenizi Tekrar Yazınız :</label>
+                                    <input type="password" name="new-password1" class="form-control password2"
+                                        id="password-edit" placeholder="Yeni Şifreniz">
+                                        <i class="bi bi-eye text-dark fs-4" style="position: absolute; top: 50%; right: 5px; cursor: pointer; display: none;" onclick="showPword2()" id="bi-eye2"></i>
+                                    <i class="bi bi-eye-slash text-dark fs-4" style="position: absolute; top: 50%; right: 5px; cursor: pointer;" onclick="showPword2()" id="bi-eye-slash2"></i>
+                                </div>
+                            </div>
+                            <div class="border-0">
+                                <button type="submit" name="submit" value="edit-password"
+                                    class="btn edit-button px-3 d-block m-auto">Şifre Değiştir</button>
+                            </div>
+                        </form>
+                        <hr>
+                        <h5>Ödeme Bilgileriniz</h5>
+                        <div class="d-flex align-items-center">
+                            <p class="fw-bold me-5 d-inline-block align-middle m-0" style="line-height: 1;">Kayıtlı
+                                Kredi Kartınız : </p>
+                            <p class="fw-bold d-inline-block align-middle m-0 " style="line-height: 1;">4563 **** ****
+                                1234</p>
+                            <button type="submit" name="submit" value="edit-password"
+                                class="btn edit-button btn-sm ms-5 px-3 align-items-center" style="font-size: .975rem;">
+                                Değiştir</button>
+                        </div>
+                        <div class="d-flex mt-0">
+                            <p class="fw-bold me-5">Abonelik Bilgilerinizz : </p>
+                            <p>Yıllık Ödeme</p>
+                        </div>
+                        <hr>
+                        <h5>Bildirim Tercihleriniz</h5>
+                        <p style="font-size: 1rem;">İletişim bilgilerim kullanılarak pazarlama faaliyetleri ve benzeri
+                            amaçlarla yasal sınırlamalar dahilinde, aşağıda belirttiğim kanallar üzerinden haberleşme
+                            yapılmasına izin veriyorum.</p>
+                        <div class="d-flex gap-5 pt-3">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckDefault">
+                                <label class="ms-2 form-check-label" for="flexSwitchCheckDefault">SMS ile
+                                    Bilgilendirme</label>
+                            </div>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch"
+                                    id="flexSwitchCheckChecked" checked>
+                                <label class="ms-2 form-check-label" for="flexSwitchCheckChecked">E-mail ile
+                                    Bilgilendirme</label>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="d-flex align-items-center py-2">
+                            <a href="{% url 'UserDelete' user.id %}" class="btn d-inline-block align-middle m-0 text-danger" style="line-height: 1.5;">Hesabımı sil</a>
+                            <button type="button" class="btn btn-primary btn-sm ms-5 cancel-button align-items-center"
+                                data-bs-toggle="modal" data-bs-target="#uyelik_iptali">
+                                Üyeliğimi İptal Et </button>
+                        </div>
+                        <!-- üyelik iptal modal -->
+                        <div class="modal fade" id="uyelik_iptali" data-bs-backdrop="static" data-bs-keyboard="false"
+                            tabindex="-1" aria-labelledby="uyelik_iptaliLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5 text-dark text-center" id="uyelik_iptaliLabel">
+                                            Üyelik iptalini onaylıyormusunuz ?</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-footer mx-auto">
+                                        <button type="button" class="btn btn-danger">Evet onaylıyorum</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+{% block js %}
+    <script>
+    function showPword() {
+      var x = document.getElementsByClassName("password");
+      var eye = document.getElementById('bi-eye')
+      var eyeslash = document.getElementById('bi-eye-slash')
+      for (let i = 0; i < x.length; i++){
+          if (x[i].type === "password") {
+            x[i].type = "text";
+          } else {
+            x[i].type = "password";
+          }
+      }
+      if (eye.style.display === "none"){
+        eye.style.display = "block"
+        eyeslash.style.display = "none"
+      }
+      else{
+        eye.style.display = "none"
+        eyeslash.style.display = "block"
+      }
+    }
+    function showPword1() {
+        var x = document.getElementsByClassName("password1");
+        var eye1 = document.getElementById('bi-eye1')
+        var eyeslash1 = document.getElementById('bi-eye-slash1')
+        for (let i = 0; i < x.length; i++){
+            if (x[i].type === "password") {
+              x[i].type = "text";
+            } else {
+              x[i].type = "password";
+            }
+        }
+        if (eye1.style.display === "none"){
+          eye1.style.display = "block"
+          eyeslash1.style.display = "none"
+        }
+        else{
+          eye1.style.display = "none"
+          eyeslash1.style.display = "block"
+        }
+      }
+      function showPword2() {
+        var x = document.getElementsByClassName("password2");
+        var eye2 = document.getElementById('bi-eye2')
+        var eyeslash2 = document.getElementById('bi-eye-slash2')
+        for (let i = 0; i < x.length; i++){
+            if (x[i].type === "password") {
+              x[i].type = "text";
+            } else {
+              x[i].type = "password";
+            }
+        }
+        if (eye2.style.display === "none"){
+          eye2.style.display = "block"
+          eyeslash2.style.display = "none"
+        }
+        else{
+          eye2.style.display = "none"
+          eyeslash2.style.display = "block"
+        }
+      }
+    </script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.3/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+  <script>
+      $(function(){
+          $('#datepicker').datepicker();
+        });
+  </script>
+{% endblock js %}
+{% endblock body %}

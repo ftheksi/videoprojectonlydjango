@@ -1,0 +1,11 @@
+
+
+{% autoescape off %}
+Hello {{ user.username }},
+
+Please click the link below to activate your account:
+
+{{ activation_url }}
+
+Thank you.
+{% endautoescape %}

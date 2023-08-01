@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+Movies Site/Logged İndex
+{% endblock title %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/girisli_index-style.css' %}">
+
+{% endblock css %}
+    
+
+
+{% block body %}
+{% comment %} Girişli navbar {% endcomment %}
+
+
+{% comment %} Main {% endcomment %}
+{% include 'part/_loggedIndex.html' %}
+{% comment %} Card {% endcomment %}
+{% include 'part/_card.html' %}
+
+{% endblock body %}
+    

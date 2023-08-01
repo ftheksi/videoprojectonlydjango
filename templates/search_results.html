@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block body %}
+  {% if series %}
+    <h2 class="text-light">Arama Sonuçları:</h2>
+    <ul>
+      {% for i in series %}
+        <li class="text-light">{{ i.title }}</li>
+      {% endfor %}
+    </ul>
+  {% else %}
+    <p>Arama sonuçları bulunamadı.</p>
+  {% endif %}
+{% endblock body %}

@@ -1,0 +1,208 @@
+{% load static %}
+{% comment %} Card yapısı {% endcomment %}
+<div class="container">
+    {% for j in subcategory %}
+    <h2 class="text-white mt-5 mb-3">{{ j.title }}</h2>
+   
+    <!-- Swiper -->
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+            
+            {% for i in series %}
+            {% for sub in i.subcategory.all %}
+                
+            
+                
+            {% if j.title == sub.title %}
+            <div class="swiper-slide film-card">
+                <div class="img-fluid film-card-hov"> 
+                    <div style="background-image: url({{ i.image.url }});"
+                        class="card col resim">
+                        <div class="info-card">
+                            <div class="film-info">
+                                <h5 class="text-white film-name">{{ i.title }}</h5>
+                                <h6 class="fw-light text-white film-date">20 Nisan</h6>
+                                <p class="fw-light text-white">+ 18</p>
+                                <div
+                                    class="text-white d-inline-flex lang text-center align-items-center d-flex justify-content-center">
+                                    TR</div>
+                                <div
+                                    class="text-white d-inline-flex ms-2 lang text-center align-items-center d-flex justify-content-center">
+                                    TR</div>
+                            </div>
+                            <div class="content">
+                                <div class="content-header d-flex justify-content-between">
+                                    <img style="width: 42px;" src="{% static 'img/girişli-anasayfa-img/imdb.svg' %}"
+                                        alt="">
+                                    <p class="content_date mt-3">{{ i.year }}</p>
+                                    <p class="content_raiting mt-3">8.5</p>
+                                </div>
+                                <div class="content-main">
+                                    
+                                    <p class="text-center ">{{ i.text|truncatechars:200 }}</p>
+                                </div>
+                                <div class="content-footer d-flex justify-content-between">
+                                    
+                                    {% for video in seriesvideo %}
+                                    <a href="/Moviex/{{ profil.id }}/WatchSeries/{{ video.id }}" class="btn btn-dark"><i class="fa-solid fa-play"></i> Oynat</a>                                 
+                                        
+                                    {% endfor %}
+                                        
+                                    <a href="/Moviex/{{ profil.id }}/SeriesDetail/{{ i.id }}" id="myBtn" class="btn btn-dark btn-wiew">
+                                        <i class="fa-sharp fa-solid fa-eye"></i>
+                                    </a> 
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        
+                                        <input type="hidden" name="movieid" value="{{ i.id }}">
+                                        
+                                        <button type="submit" name="submit" value="myListSeries" class="btn btn-dark btn-addFav" onclick="ListAdd()" id="plus"><i class="fa-regular fa-plus"></i></button>
+                                        {% for k in mylist %}
+
+                                            {% if k.series.slug == i.slug %}
+                                                <a href="{% url 'ListDel' k.id %}" class="btn btn-dark btn-addFav" onclick="ListAdd()" style="position: absolute; top: 83%; right: 0;" id="minus"><i class="fa-solid fa-minus" ></i></a>
+                                                {% else %}
+                                            {% endif %}
+                                                
+                                            
+                                        {% endfor %}
+                                            
+                                            
+                                        
+                                        <!-- <a href="{% url 'LoginUser' %}" class="btn btn-dark btn-addFav"><i class="fa-regular fa-plus"></i></a> -->
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            
+            
+            
+            
+            {% for i in movies %}
+            
+            {% for sub in i.subcategory.all %}
+                
+            
+                
+            {% if j.title == sub.title %}
+                
+            
+                
+            <div class="swiper-slide film-card">
+                <div class="img-fluid film-card-hov"> 
+                    <div style="background-image: url({{ i.image.url }});"
+                        class="card col resim">
+                        <div class="info-card">
+                            <div class="film-info">
+                                <h5 class="text-white film-name">{{ i.title }}</h5>
+                                <h6 class="fw-light text-white film-date">20 Nisan</h6>
+                                <p class="fw-light text-white">+ 18</p>
+                                <div
+                                    class="text-white d-inline-flex lang text-center align-items-center d-flex justify-content-center">
+                                    TR</div>
+                                <div
+                                    class="text-white d-inline-flex ms-2 lang text-center align-items-center d-flex justify-content-center">
+                                    TR</div>
+                            </div>
+                            <div class="content">
+                                <div class="content-header d-flex justify-content-between">
+                                    <img style="width: 42px;" src="{% static 'img/girişli-anasayfa-img/imdb.svg' %}"
+                                        alt="">
+                                    <p class="content_date text-white mt-3">{{ i.year }}</p>
+                                    <p class="text-white content_raiting mt-3">8.5</p>
+                                </div>
+                                <div class="content-main">
+                                        
+                                    <p class="text-white text-center">{{ i.text|truncatechars:200 }}</p>
+                                </div>
+                                <div class="content-footer d-flex justify-content-between">
+
+                                    <a href="/Moviex/{{ profil.id }}/WatchMovie/{{ i.url.id }}" class="btn btn-dark btn-play"><i class="fa-solid fa-play"></i> Oynat</a>                                 
+                                                   
+                                    <a href="/Moviex/{{ profil.id }}/ContentDetail/{{ i.id }}" id="myBtn" class="btn btn-dark btn-wiew">
+                                        <i class="fa-sharp fa-solid fa-eye"></i>
+                                    </a> 
+                                    <form method="POST">
+                                        {% csrf_token %}
+                                        
+                                        <input type="hidden" name="movieid" value="{{ i.id }}">
+                                        
+                                        <button type="submit" name="submit" value="myListMovies" class="btn btn-dark btn-addFav" onclick="ListAdd()" id="plus"><i class="fa-regular fa-plus"></i></button>
+                                        {% for k in mylist %}
+
+                                            {% if k.movies.slug == i.slug %}
+                                                <a href="{% url 'ListDel' k.id %}" class="btn btn-dark btn-addFav" onclick="ListAdd()" style="position: absolute; top: 79%; right: 0;" id="minus"><i class="fa-solid fa-minus" ></i></a>
+                                                {% else %}
+                                            {% endif %}
+                                                
+                                            
+                                        {% endfor %}
+                                            
+                                            
+                                        
+                                        <!-- <a href="{% url 'LoginUser' %}" class="btn btn-dark btn-addFav"><i class="fa-regular fa-plus"></i></a> -->
+                                        
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endfor %}
+            <script>
+                function ListAdd() {
+                    let plus = document.getElementById('plus')
+                    let minus = document.getElementById('minus')
+                    if(minus.style.display == "none"){
+                        minus.style.display = "block"
+                    }
+                    else{
+                        minus.style.display == "none"
+                    }
+                }
+            </script>
+        </div>
+        <div class="swiper-button-next text-white"></div>
+        <div class="swiper-button-prev text-white"></div>
+    </div>
+    {% endfor %}
+</div>
+
+
+
+{% block js %}
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 2,
+        spaceBetween: 30,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            1200: {
+                slidesPerView: 5,
+            },
+            992: {
+                slidesPerView: 4,
+            },
+            560: {
+                slidesPerView: 3,
+            },
+        }
+    });
+</script>
+
+{% endblock js %}

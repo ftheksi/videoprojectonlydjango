@@ -1,0 +1,198 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+
+{% block title %}Login{% endblock title %}
+
+
+{% block css %}
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+
+    .login_CT {
+        /* margin-left: 10%;
+        margin-right: 10%; */
+        background-color: #092032;
+        position: relative;
+        color: #EFEFEF;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .login_CT .login-table {
+        background-color: #2C394A;
+        border: 2px solid #205375;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    .login_CT .login-table .login-button {
+        background-color: #205375;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 600;
+        outline: 0;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s;
+        -moz-user-select: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .login_CT .login-table .login-button::before {
+        background-color: initial;
+        background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+        content: "";
+        left: 4%;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        transition: all 0.3s;
+    }
+
+    .login_CT .login-table .login-button:hover {
+        box-shadow: rgba(255, 255, 255, 0.2) 0 3px 15px inset, rgba(0, 0, 0, 0.1) 0 3px 5px, rgba(0, 0, 0, 0.1) 0 10px 13px;
+    }
+
+    .login_CT .login-right-side {
+        background-repeat: no-repeat;
+        background-size: cover;
+        background: linear-gradient(90deg, rgb(9, 32, 50) 0%, rgba(9, 32, 50, 0.424054656) 100%),
+        url({% static 'img/new-user-img/login_background.jpg' %} );
+    }
+
+
+
+    .form-floating>label {
+        font-size: 14px !important;
+    }
+</style>
+
+
+{% endblock css %}
+
+
+{% block body %}
+
+
+{% for i in messages %}
+{% if i.tags == "success" %}
+<div class="alert alert-success alert-dismissible fade show fw-bold" role="alert"
+    style="position: fixed; top: 100px; left: 50px; z-index: 99; min-width: 350px !important; width: fit-content;">
+    {{ i }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% if i.tags == "warning" %}
+<div class="alert alert-danger alert-dismissible fade show fw-bold" role="alert"
+    style="position: fixed; bottom: 90px; left: 90px; z-index: 99; min-width: 350px !important; width: fit-content;">
+    {{ i }}
+    <hr>
+    Hesabınız yoksa <a href="{% url 'RegisterUser' %}"> Kayıt </a> olmanız gerekir
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+{% endif %}
+
+{% endfor %}
+
+<div class="container-fluid" style="padding: 0 4%;">
+
+    <img src="{% static 'img/new-user-img/back-top.png' %}"
+        style="position: fixed; top: 0; left: 0; width: 100%; max-height: 300px; z-index: -5;">
+    <img src="{% static 'img/new-user-img/back-down.png' %}"
+        style=" position: fixed; bottom: 0;left: 0; width: 100%; max-height: 300px; z-index: -5;">
+
+    <section class="login_CT">
+
+        <div class="row" style="height: 600px;">
+            <div class="col col-md-6 col-lg-5 d-flex justify-content-center align-self-center py-3 h-100">
+                <div class="col-10 align-self-center login-table p-3">
+                    <h4 class="fw-semibold">OTURUM AÇ</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-floating login-form">
+                            <input class="form-control mt-4" type="text" name="username" id="input_e-mail_tel"
+                                placeholder="eposta ve telefon numarası" style="height: 50px;">
+                            <label for="input_e-mail_tel" class="text-dark">E-posta veya telefon numaranız
+                            </label>
+                        </div>
+                        <div class="form-floating" style="position: relative;">
+                            <input class="form-control mt-3 password" type="password" name="password"
+                                placeholder="parola" id="parola" style="height: 50px;">
+                            <label for="parola" class="text-dark">Parola </label>
+                            <i class="bi bi-eye text-dark fs-4"
+                                style="position: absolute; top: 20%; right: 5px; cursor: pointer; display: none;"
+                                onclick="showPword()" id="bi-eye"></i>
+                            <i class="bi bi-eye-slash text-dark fs-4"
+                                style="position: absolute; top: 20%; right: 5px; cursor: pointer;" onclick="showPword()"
+                                id="bi-eye-slash"></i>
+                        </div>
+                        <div class="d-flex justify-content-between mt-3">
+                            <div class="form-check ">
+                                <input class="form-check-input" type="checkbox" id="remember_me">
+                                <label class="form-check-label fs-6" for="remember_me">
+                                    Beni Hatırla
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <a href="{% url 'sifreunutma' %}" class="text-light fs-6">Şifremi unuttum</a>
+                            </div>
+                        </div>
+                        <div class="d-grid col-12 mx-auto my-3">
+                            <button class="btn btn-lg text-white fw-bold login-button mb-1" type="submit">Oturum
+                                Aç</button>
+                            <p class="text-center mt-3 fs-6">Hesabınız yok mu ? Bize katılmak
+                                için şimdi <a href="{% url 'RegisterUser' %}"
+                                    class="text-light text-decoration-underline">kaydolun</a>.</p>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
+            <div class="col-md-6 col-lg-7 login-right-side">
+            </div>
+
+
+        </div>
+
+    </section>
+</div>
+<script>
+    function showPword() {
+        var x = document.getElementsByClassName("password");
+        var eye = document.getElementById('bi-eye')
+        var eyeslash = document.getElementById('bi-eye-slash')
+        for (let i = 0; i < x.length; i++) {
+            if (x[i].type === "password") {
+                x[i].type = "text";
+            } else {
+                x[i].type = "password";
+            }
+        }
+        if (eye.style.display === "none") {
+            eye.style.display = "block"
+            eyeslash.style.display = "none"
+        }
+        else {
+            eye.style.display = "none"
+            eyeslash.style.display = "block"
+        }
+    }
+</script>
+
+{% endblock body %}

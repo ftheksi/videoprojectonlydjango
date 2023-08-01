@@ -1,0 +1,482 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}SSS{% endblock title %}
+
+{% block css %}
+
+<style>
+  /* #HEMENBAŞLA */
+  .cta {
+
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding-block: 50px;
+  }
+
+  .cta .title-wrapper {
+    margin-bottom: 25px;
+  }
+
+  .cta-title {
+    color: var(--partner-9);
+    font-size: var(--fs-3);
+    text-transform: uppercase;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+
+  .cta-text {
+    color: var(--partner-9);
+    font-size: var(--fs-9);
+    font-weight: var(--fw-500);
+    line-height: 1.8;
+  }
+
+  .cta .email-field {
+    color: var(--partner-9) !important;
+    font-size: var(--fs-9) !important;
+    padding: 18px 32px;
+    border-radius: 4px;
+    box-shadow: 0 3px 4px hsla(0, 0%, 0%, 0.2);
+    margin-bottom: 15px;
+  }
+
+  .cta-form-btn {
+    background: var(--partner-9);
+    color: var(--partner-3);
+    font-size: var(--fs-9);
+    font-weight: var(--fw-700);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--partner-8);
+    padding: 15px 34px;
+    border-radius: 4px;
+    margin-inline: auto;
+    transition: var(--transition-1);
+
+  }
+
+  .cta-form-btn:is(:hover, :focus) {
+    background: var(--partner-3);
+    color: var(--partner-9);
+
+  }
+
+  /* HEMEN BAŞLA END */
+
+
+  /* PRATİK ÇIKIŞ */
+  .go-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--partner-3);
+    color: var(--partner-9);
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-2);
+    z-index: 2;
+  }
+
+  .go-top.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* MEDIA QUERIES */
+
+  /* 550 EKRAN */
+
+  @media (min-width: 550px) {
+
+    .accordion .accordion-content p {
+      font-size: 60%;
+      font-weight: 100;
+      margin: 2em 0;
+      padding-bottom: 1rem;
+    }
+
+  }
+
+  /* 768 Ekran */
+  @media (min-width: 768px) {
+    :root {
+
+      /* FONT */
+
+      --fs-2: 36px;
+
+    }
+
+
+    /* HEMEN BAŞLA*/
+
+    .cta-form {
+      position: relative;
+      max-width: 530px;
+      margin-inline: auto;
+    }
+
+    .cta .email-field {
+      margin-bottom: 0;
+    }
+
+    .cta-form-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      bottom: 2px;
+    }
+
+  }
+
+
+  /* 992 Ekran */
+  @media (min-width: 992px) {
+
+    .cta {
+      text-align: left;
+    }
+
+    /* HEMEN BAŞLA*/
+    .cta .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cta .title-wrapper {
+      margin-bottom: 0;
+      width: 100%;
+    }
+
+    .cta-form {
+      margin-inline: 0;
+      max-width: unset;
+      width: 100%;
+    }
+
+
+  }
+
+  /* 1200 Ekran  */
+
+  @media (min-width: 1200px) {
+
+    :root {
+
+      /* FONT */
+
+      --fs-1: 60px;
+      --fs-4: 26px;
+
+    }
+
+
+
+
+    /* HEMEN BAŞLA */
+
+    .cta .container {
+      max-width: 1150px;
+    }
+  }
+
+  /* ACCORDİON START */
+  .accordion {
+    --mdb-accordion-border-color: none;
+    --bs-accordion-bg: var(--partner-3);
+  }
+
+  .accordion-item {
+    color: var(--partner-4);
+    border: none;
+  }
+
+
+  .accordion .accordion-item {
+    border-bottom: 1px solid var(--partner-3);
+  }
+
+  .accordion .accordion-item button[aria-expanded=true] {
+    border-bottom: 1px solid var(--partner-3);
+  }
+
+  .accordion button {
+    position: relative;
+    display: block;
+    text-align: left;
+    width: 100%;
+    padding: 1em 0;
+    color: var(--partner-4);
+    font-size: 1.15rem;
+    font-weight: 400;
+    border: none;
+    background: #040814;
+    outline: none;
+  }
+
+  .accordion button:hover,
+  .accordion button:focus {
+    cursor: pointer;
+    color: var(--partner-3) !important;
+  }
+
+  .accordion button:hover::after,
+  .accordion button:focus::after {
+    cursor: pointer;
+    color: var(--partner-3);
+    border: 1px solid var(--partner-3);
+  }
+
+  .accordion button .accordion-title {
+    padding: 1em 1.5em 1em 0;
+  }
+
+  .accordion button .icon {
+    display: inline-block;
+    position: absolute;
+    top: 18px;
+    right: 0;
+    width: 22px;
+    height: 22px;
+    border: 1px solid;
+    border-radius: 22px;
+  }
+
+  .accordion button .icon::before {
+    display: block;
+    position: absolute;
+    content: "";
+    top: 9px;
+    left: 5px;
+    width: 10px;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .accordion button .icon::after {
+    display: block;
+    position: absolute;
+    content: "";
+    top: 5px;
+    left: 9px;
+    width: 2px;
+    height: 10px;
+    background: currentColor;
+  }
+
+  .accordion button[aria-expanded=true] {
+    color: var(--partner-3);
+  }
+
+  .accordion button[aria-expanded=true] .icon::after {
+    width: 0;
+  }
+
+  .accordion button[aria-expanded=true]+.accordion-content {
+    opacity: 1;
+    max-height: 9em;
+    transition: all 200ms linear;
+    will-change: opacity, max-height;
+    background: #040814;
+  }
+
+  .accordion .accordion-content {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 200ms linear, max-height 200ms linear;
+    will-change: opacity, max-height;
+    background: #040814;
+  }
+
+  .accordion .accordion-content p {
+    font-size: 77%;
+    font-weight: 100;
+    margin: 2em 0;
+    padding-bottom: 1rem;
+  }
+
+  /* ACCORDİON END */
+</style>
+{% endblock css %}
+
+
+
+
+
+
+{% block body %}
+
+
+
+
+<!-- Accordion Start -->
+<div class="container">
+  <h2 class="text-center text-light mb-5">SIKÇA SORULAN SORULAR</h2>
+  <div class="accordion">
+    <div class="accordion-item">
+      <button id="accordion-button-1" aria-expanded="false"><span class="accordion-title">..... Nedir?</span><span
+          class="icon" aria-hidden="true"></span></button>
+      <div class="accordion-content">
+        <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren
+          geniş bir arşiv sunan bir streaming hizmetidir.
+          Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret
+          karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!
+        </p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button id="accordion-button-2" aria-expanded="false"><span class="accordion-title">..... Maliyeti
+          Nedir?</span><span class="icon" aria-hidden="true"></span></button>
+      <div class="accordion-content">
+        <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren
+          geniş bir arşiv sunan bir streaming hizmetidir.
+          Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret
+          karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler
+          ekleniyor!.</p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button id="accordion-button-3" aria-expanded="false"><span class="accordion-title">..... Nerede
+          İzleyebilirim?</span><span class="icon" aria-hidden="true"></span></button>
+      <div class="accordion-content">
+        <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren
+          geniş bir arşiv sunan bir streaming hizmetidir.
+          Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret
+          karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!
+        </p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button id="accordion-button-4" aria-expanded="false"><span class="accordion-title">..... Nasıl İptal
+          Ederim?</span><span class="icon" aria-hidden="true"></span></button>
+      <div class="accordion-content">
+        <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren
+          geniş bir arşiv sunan bir streaming hizmetidir.
+          Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret
+          karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!
+        </p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button id="accordion-button-5" aria-expanded="false"><span class="accordion-title">..... Ne
+          izleyebilirim?</span><span class="icon" aria-hidden="true"></span></button>
+      <div class="accordion-content">
+        <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren
+          geniş bir arşiv sunan bir streaming hizmetidir.
+          Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret
+          karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!
+        </p>
+      </div>
+    </div>
+    <div class="accordion-item">
+      <button id="accordion-button-6" aria-expanded="false"><span class="accordion-title">..... Çocuklar için
+          uygu</span><span class="icon" aria-hidden="true"></span></button>
+      <div class="accordion-content">
+        <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren
+          geniş bir arşiv sunan bir streaming hizmetidir.
+          Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret
+          karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Accordion End -->
+
+<!-- HEMEN BAŞLA -->
+
+<div class="container">
+  <div class="row ">
+    <section class="cta">
+      <div class="container">
+
+        <div class="title-wrapper ">
+          <h2 class="cta-title text-light">30 Gün Ücretsiz Deneyin !</h2>
+
+          <p class="cta-text text-light">
+            Üyeliğinizi oluşturmak veya yeniden başlatmak için e-postanızı girin.
+          </p>
+        </div>
+
+        <form action="" class="cta-form">
+          <input type="email" name="email" required placeholder="Email Adresinizi Giriniz.." class="email-field">
+
+          <button type="submit" class="cta-form-btn">Hemen Başla</button>
+        </form>
+
+      </div>
+    </section>
+
+  </div>
+</div>
+<!-- HEMEN BAŞLA END -->
+
+
+
+
+<!-- HIZLI GEÇİŞ -->
+
+<a href="#top" class="go-top" data-go-top>
+  <ion-icon name="chevron-up"></ion-icon>
+</a>
+
+
+
+<script>
+  var acc = document.getElementsByClassName("accordion-button");
+  var i;
+  for (i = 0; i < acc.length; i++) {
+    acc[i].addEventListener("click", function () {
+      this.classList.toggle("active");
+      var icerik = this.nextElementSibling;
+      if (icerik.style.display === "block") {
+        icerik.style.display = "none";
+      } else {
+        icerik.style.display = "block"
+      }
+    });
+  }
+
+  /* Accordion START */
+  const items = document.querySelectorAll(".accordion button");
+
+  function toggleAccordion() {
+    const itemToggle = this.getAttribute('aria-expanded');
+
+    for (i = 0; i < items.length; i++) {
+      items[i].setAttribute('aria-expanded', 'false');
+    }
+
+    if (itemToggle == 'false') {
+      this.setAttribute('aria-expanded', 'true');
+    }
+  }
+
+  items.forEach(item => item.addEventListener('click', toggleAccordion));
+  /* Accordion END */
+
+  /* HIZLI ÇIKIŞ*/
+
+  const goTopBtn = document.querySelector("[data-go-top]");
+
+  window.addEventListener("scroll", function () {
+
+    window.scrollY >= 500 ? goTopBtn.classList.add("active") : goTopBtn.classList.remove("active");
+
+  });
+          /* HIZLI ÇIKIŞ END*/
+
+</script>
+{% endblock body %}

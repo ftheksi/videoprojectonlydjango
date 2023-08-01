@@ -1,0 +1,1549 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Anasayfa{% endblock title %}
+  
+  {% block css %}
+  
+<style>
+  /* Header Start */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    /* COLOR */
+    --partner-1: #112B3C;
+    --partner-2: #205375;
+    --partner-3: #F66B0E;
+    --partner-4: #EFEFEF;
+    --partner-5: #082032;
+    --partner-6: #2C394B;
+    --partner-7: #334756;
+    --partner-8: #FF4C29;
+    --partner-9: #0A0F0F;
+    --partner-10: #CECACA;
+    --yedek-11: #040814;
+  }
+
+  header {
+
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 5px;
+    height: 140px;
+
+  }
+
+  header h1 {
+    width: 148px;
+    height: 80px;
+  }
+  @media screen and (max-width: 767px) {
+    header h1 {
+      width: 100%;
+      height: auto;
+      text-align: center;
+      padding-top: 30px; 
+    }
+  }
+
+  @media screen and (max-width: 767px) {
+    header {
+      height: 125px !important;
+    }
+  }
+     /* DATA BUTON BELİRGİN */
+     button[data-play] {
+      background-color: #effdfd  !important;
+      color: #333 !important; 
+      padding: 5px 20px !important; 
+      border: none !important; 
+      border-radius: 5px !important; 
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2) !important; 
+    }
+
+
+  /* .container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between
+} */
+  nav {
+    box-shadow: none !important;
+  }
+
+  header nav ul {
+    display: flex;
+    list-style: none;
+    position: relative;
+    gap: 25px;
+    align-items: center;
+    padding: 0;
+  }
+
+  @media (max-width: 575.98px) {
+    header nav ul {
+      flex-direction: column !important;
+      gap: 5px;
+      align-items: end;
+      margin-top: 20px;
+    }
+
+    .header-button-login .btn,
+    .header-button-register .btn {
+      font-size: 10px;
+      padding: 6px 10px 4px;
+      width: 67px !important;
+    }
+
+    .language-text {
+      font-size: 10px;
+      width: 67px !important;
+    }
+  }
+
+  /* header nav ul .header-button-login{
+  margin-right: 25px;
+} */
+  header nav ul .header-button-register .btn {
+    background-image: linear-gradient(#205375, #552bb0);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #EFEFEF;
+  }
+
+  header nav ul .header-button-login .btn {
+    background-image: linear-gradient(#205375, #552bb0);
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    color: #EFEFEF;
+  }
+
+  header nav ul .header-button-login .btn:hover {
+    background-image: linear-gradient(#FF4C29, #624478);
+    color: #EFEFEF;
+
+  }
+
+  header nav ul .header-button-register .btn:hover {
+    background-image: linear-gradient(#FF4C29, #624478);
+    color: #EFEFEF;
+
+  }
+
+  .language-text {
+    color: #EFEFEF;
+    background-image: linear-gradient(#205375, #552bb0);
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    width: 80px;
+    padding: 6px 5px;
+  }
+
+  .language-text:hover {
+    background-image: linear-gradient(#FF4C29, #624478);
+    color: #EFEFEF;
+  }
+
+  .language-text select:hover {
+    color: #efefef;
+    background-color: #624478;
+  }
+
+  /* responsive */
+
+
+  /* Header End */
+  /* Slider Start */
+  .card-movie__details-list:after,
+  .card-movie__details:after {
+    clear: both;
+    content: "";
+    display: table;
+  }
+
+  .card-movie-wrapper {
+    box-shadow: 0px 0px 100px 25px rgba(0, 0, 0, 0.2);
+    height: 750px;
+    position: relative;
+    width: 1500px;
+    margin: auto;
+    margin-top: 50px;
+  }
+
+  .card-movie-wrapper:hover .card-movie-carousel {
+    -webkit-transition: all 250ms ease-in-out;
+    -moz-transition: all 250ms ease-in-out;
+    transition: all 250ms ease-in-out;
+    bottom: 60px;
+    right: 40px;
+  }
+
+  .card-movie-carousel {
+    -webkit-transition: all 250ms ease-in-out 250ms;
+    -moz-transition: all 250ms ease-in-out 250ms;
+    transition: all 250ms ease-in-out 250ms;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+  }
+
+  .card-movie-navigation {
+    background-color: #040612;
+    bottom: 0;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    width: 100%;
+    z-index: 15;
+  }
+
+  .card-movie-navigation__list {
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    position: absolute;
+    right: 14px;
+    top: 50%;
+    width: 18px;
+  }
+
+  .card-movie-navigation__list li {
+    -webkit-transition: all 250ms ease-in-out;
+    -moz-transition: all 250ms ease-in-out;
+    transition: all 250ms ease-in-out;
+    background-color: #ccc;
+    border-radius: 100%;
+    cursor: pointer;
+    height: 12px;
+    width: 12px;
+    margin-top: 5px;
+    padding-right: 10px;
+    list-style-type: none;
+  }
+
+  .card-movie-navigation__list li:last-child {
+    margin-bottom: 0;
+  }
+
+  .card-movie-navigation__list li.is-active {
+    background-color: orangered;
+  }
+
+  .card-movie-navigation__list li:hover {
+    background-color: orangered;
+  }
+
+  .card-movie-navigation button {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-color: transparent;
+    border: none;
+    bottom: 0;
+    color: #aac8ca;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 60px;
+    margin: 0;
+    outline: none;
+    padding: 0;
+    position: absolute;
+    right: 40px;
+  }
+
+  .card-movie-navigation button:before {
+    content: "Fragmanı İzle";
+  }
+
+  .card-movie-navigation button:after {
+    -webkit-transform: translateY(-50%);
+    -moz-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    transform: translateY(-50%);
+    border-bottom: 6px solid transparent;
+    border-left: 6px solid black;
+    border-top: 6px solid transparent;
+    content: "";
+    height: 0;
+    margin-right: -15px;
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    width: 0;
+  }
+
+  .card-movie-navigation button.is-playing:before {
+    content: "Fragmanı Kapat";
+  }
+
+  .card-movie-navigation button.is-playing:after {
+    -webkit-transform: rotate(-90deg);
+    -moz-transform: rotate(-90deg);
+    -ms-transform: rotate(-90deg);
+    -o-transform: rotate(-90deg);
+    transform: rotate(-90deg);
+    margin-top: -6px;
+  }
+
+  .card-movie {
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+    background-size: cover;
+    bottom: 0;
+    height: 100%;
+    overflow: hidden;
+    position: absolute;
+    right: 0;
+    opacity: 0;
+    width: 100%;
+    z-index: 20;
+  }
+
+  .card-movie__content {
+    left: 70%;
+    position: absolute;
+    top: 50%;
+    color: black;
+  }
+
+  @media (max-width:767px) {
+    .card-movie__content {
+      left: 5%;
+      top: 5%;
+      background-color: rgba(0, 0, 0, 0.6); /* Yarı saydam bir arka plan rengi */
+      padding: 10px; /* İçeriği kenarlardan biraz içeri taşıyarak okunabilirliği artırır */
+      color: #ffffff; 
+    }
+
+    .card-movie__content .card-movie__title {
+      color: black !important;
+    }
+  }
+
+  .card-movie__title {
+    font-size: 60px;
+    font-weight: 700;
+    line-height: 1;
+    margin-left: -4px;
+    text-transform: uppercase;
+    color: black !important;
+  }
+  .card-movie__titlee {
+    font-size: 60px;
+    font-weight: 700;
+    line-height: 1;
+    margin-left: -4px;
+    text-transform: uppercase;
+    color: white!important;
+  }
+  .card-movie__titleee {
+    font-size: 60px;
+    font-weight: 700;
+    line-height: 1;
+    margin-left: -4px;
+    text-transform: uppercase;
+    color: black !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  @media screen and (max-width: 767px) {
+    .card-movie__titleee {
+      font-size: 40px;
+    }
+  }
+
+  .card-movie__details {
+    margin-bottom: 30px;
+    margin-top: 15px;
+  }
+
+  .card-movie__details-item {
+    display: block;
+    float: left;
+    margin-right: 20px;
+  }
+
+  .card-movie__details-list li {
+    float: left;
+    margin-right: 5px;
+    padding-right: 6px;
+    position: relative;
+    list-style-type: none;
+  }
+
+  .card-movie__details-list li:after {
+    content: "|";
+    position: absolute;
+    right: 0;
+  }
+
+  .card-movie__details-list li:last-child {
+    margin-right: 0;
+  }
+
+  .card-movie__details-list li:last-child:after {
+    display: none;
+  }
+
+  .card-movie__description {
+    font-size: 14px;
+    max-width: 390px;
+  }
+
+  .card-movie__rating {
+    bottom: 16.6666666667px;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 50px;
+    position: absolute;
+    right: 16.6666666667px;
+    text-align: center;
+    width: 50px;
+    color: black !important;
+  }
+
+  .card-movie__rating:after {
+    border-radius: 100%;
+    border: 2px solid var(--partner-3);
+    content: "";
+    height: 100%;
+    left: 0;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+
+  .card-movie__player {
+    -webkit-transition: all 500ms ease-in-out;
+    -moz-transition: all 500ms ease-in-out;
+    transition: all 500ms ease-in-out;
+    -webkit-transform: translate(-50%, -50%);
+    -moz-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    -o-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    height: 0;
+    left: 50%;
+    position: absolute;
+    top: 50%;
+    width: 0;
+    z-index: 20;
+  }
+
+  .card-movie--playing .card-movie__player {
+    height: 440px;
+    width: 840px;
+  }
+
+  .card-movie__player iframe {
+    height: 100%;
+    width: 100%;
+  }
+
+  .card-movie--active {
+    opacity: 1;
+    z-index: 25;
+
+  }
+  @media screen and (max-width: 767px) {
+    .card-movie--active {
+      position: absolute;
+      top: 52%;
+      left: 55%;
+      transform: translate(-50%, -50%);
+      max-width: 90%;
+      overflow: hidden;
+    }
+  }
+  
+
+  .card-movie--light {
+    background-color: #effdfd;
+  }
+
+  .card-movie--light [class*=__title] {
+    color: #000;
+  }
+
+  .card-movie--dark {
+    background-color: #000;
+    color: #fff;
+  }
+
+  .card-movie--dark [class*=__title] {
+    color: #fff;
+  }
+
+  .card-movie--looper {
+    background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/43525/looper.png');
+  }
+
+  .card-movie--interstellar {
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/43525/interstellar.png");
+    background-color: #fffffa;
+  }
+
+  .card-movie--garden-state {
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/43525/garden-state.png");
+  }
+
+  .card-movie--walter-mitty {
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/43525/walter-mitty.png");
+  }
+
+  .card-movie--cloud-atlas {
+    background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/43525/cloud-atlas.png");
+  }
+
+  /* Slider End */
+
+  /* TOP */
+  .top-rated {
+    background-color: #040814;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .top-rated .section-title {
+    margin-bottom: 50px;
+  }
+
+  .section-subtitle {
+    color: var(--partner-3);
+    font-size: var(--fs-11);
+    font-weight: var(--fw-500);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .h1,
+  .h2,
+  .h3 {
+    color: var(--partner-4);
+    line-height: 1.2;
+  }
+
+  .section-title {
+    text-align: center;
+  }
+
+  .top-rated .filter-list ul{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    list-style: none;
+    padding-left: 0 !important;
+    margin-bottom: 50px;
+  }
+
+  @media (max-width: 575.98px) {
+
+    .top-rated .filter-list li {
+      flex-basis: 33%;
+      text-align: center;
+    }
+  }
+
+
+  .top-rated .filter-btn {
+    position: relative;
+    background: var(--partner-9);
+    color: var(--partner-10);
+    font-size: var(--fs-10);
+    font-weight: var(--fw-700);
+    text-transform: uppercase;
+    padding: 17px 20px;
+    border-radius: 4px;
+    box-shadow: inset 0 3px 7px hsla(0, 0%, 0%, 0.8);
+  }
+
+  .top-rated .filter-btn:focus {
+    color: var(--partner-3);
+    text-shadow: 0 3px 25px hsl(27, 91%, 47%);
+  }
+
+  .top-rated .filter-btn:focus::before,
+  .top-rated .filter-btn:focus::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--partner-3);
+    width: 2px;
+    height: 15px;
+  }
+
+
+  .top-rated .filter-btn:focus::before {
+    left: 0;
+  }
+
+  .top-rated .filter-btn:focus::after {
+    right: 0;
+  }
+
+
+
+  /* TOP END */
+
+
+  /* FİLM CARD */
+  .movies-list ul {
+    display: grid;
+    gap: 50px;
+    list-style: none;
+    padding-left: 0!important;
+  }
+
+  .movie-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .movie-card .card-banner {
+    position: relative;
+    background: var(--gunmetal-1);
+    aspect-ratio: 2 / 3;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    transition: var(--transition-1);
+  }
+
+  .movie-card .card-banner::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transition: var(--transition-1);
+  }
+
+  .movie-card .card-banner:hover {
+    box-shadow: 0 1px 2px hsla(0, 0%, 0%, 0.5);
+  }
+
+  .movie-card .card-banner:hover::after {
+    background: hsla(0, 0%, 100%, 0.05);
+  }
+
+  .movie-card .card-banner img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .movie-card .title-wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 10px;
+
+  }
+
+  .movie-card .card-title {
+    color: var(--partner-4);
+    font-size: var(--fs-7);
+    transition: var(--transition-1);
+    text-decoration: none;
+  }
+
+  .movie-card .card-title:is(:hover, :focus) {
+    color: var(--partner-3);
+  }
+
+  .movie-card .title-wrapper time {
+    color: var(--partner-3);
+    font-size: var(--fs-9);
+    font-weight: var(--fw-500);
+  }
+
+  .movie-card .card-meta {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 15px;
+  }
+
+  .badge-outline {
+    border-color: var(--partner-4) !important;
+  }
+
+  .movie-card .badge {
+    color: var(--partner-3);
+  }
+
+  .movie-card .duration {
+    margin-left: auto;
+  }
+
+  .movie-card :is(.duration, .rating) {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--partner-4);
+    font-size: var(--fs-11);
+    font-weight: var(--fw-500);
+  }
+
+  .movie-card :is(.duration, .rating) ion-icon {
+    font-size: 13px;
+    --ionicon-stroke-width: 50px;
+    color: var(--partner-3);
+  }
+
+
+
+  /* FİLM CARD END */
+
+
+
+  /* BADGE */
+  .badge {
+    color: var(--partner-4);
+    font-size: var(--fs-12);
+    font-weight: var(--fw-700);
+    border: 2px solid transparent;
+    padding: 2px 10px;
+  }
+
+  .badge-fill {
+    background: var(--partner-4);
+    color: var(--raisin-black);
+  }
+
+  .badge-outline {
+    border-color: var(--partner-4);
+  }
+
+  /* BADGE END*/
+
+
+
+  /* #HEMENBAŞLA */
+  .cta {
+
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+    padding-block: 50px;
+  }
+
+  .cta .title-wrapper {
+    margin-bottom: 25px;
+  }
+
+  .cta-title {
+    color: var(--partner-9);
+    font-size: var(--fs-3);
+    text-transform: uppercase;
+    line-height: 1.2;
+    margin-bottom: 5px;
+  }
+
+  .cta-text {
+    color: var(--partner-9);
+    font-size: var(--fs-9);
+    font-weight: var(--fw-500);
+    line-height: 1.8;
+  }
+
+  .cta .email-field {
+    color: var(--partner-9) !important;
+    font-size: var(--fs-9) !important;
+    padding: 18px 32px;
+    border-radius: 4px;
+    box-shadow: 0 3px 4px hsla(0, 0%, 0%, 0.2);
+    margin-bottom: 15px;
+  }
+
+  .cta-form-btn {
+    background: var(--partner-9);
+    color: var(--partner-3);
+    font-size: var(--fs-9);
+    font-weight: var(--fw-700);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: 2px solid var(--partner-8);
+    padding: 15px 34px;
+    border-radius: 4px;
+    margin-inline: auto;
+    transition: var(--transition-1);
+
+  }
+
+  .cta-form-btn:is(:hover, :focus) {
+    background: var(--partner-3);
+    color: var(--partner-9);
+
+  }
+
+  /* HEMEN BAŞLA END */
+
+
+  /* PRATİK ÇIKIŞ */
+  .go-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--partner-3);
+    color: var(--partner-9);
+    width: 50px;
+    height: 50px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px hsla(0, 0%, 0%, 0.5);
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition-2);
+    z-index: 2;
+  }
+
+  .go-top.active {
+    opacity: 1 !important;
+    visibility: visible !important;
+  }
+
+  /* MEDIA QUERIES */
+
+  /* 550 EKRAN */
+
+  @media (min-width: 550px) {
+
+    :root {
+
+      /* FONT */
+
+      --fs-1: 42px;
+
+    }
+
+   
+    /* FİLM CARD */
+
+    .movies-list ul {
+      grid-template-columns: 1fr 1fr;
+      gap: 60px 30px;
+    }
+
+    .accordion .accordion-content p {
+      font-size: 60%;
+      font-weight: 100;
+      margin: 2em 0;
+      padding-bottom: 1rem;
+    }
+
+  }
+
+  /* 768 Ekran */
+  @media (min-width: 768px) {
+    :root {
+
+      /* FONT */
+
+      --fs-2: 36px;
+
+    }
+
+  
+    /* HEMEN BAŞLA*/
+
+    .cta-form {
+      position: relative;
+      max-width: 530px;
+      margin-inline: auto;
+    }
+
+    .cta .email-field {
+      margin-bottom: 0;
+    }
+
+    .cta-form-btn {
+      position: absolute;
+      top: 2px;
+      right: 2px;
+      bottom: 2px;
+    }
+
+  }
+
+
+  /* 992 Ekran */
+  @media (min-width: 992px) {
+
+       /* FİLM CARD */
+
+    .movies-list ul {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .cta {
+      text-align: left;
+    }
+
+    /* HEMEN BAŞLA*/
+    .cta .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .cta .title-wrapper {
+      margin-bottom: 0;
+      width: 100%;
+    }
+
+    .cta-form {
+      margin-inline: 0;
+      max-width: unset;
+      width: 100%;
+    }
+
+
+  }
+
+  /* 1200 Ekran  */
+
+  @media (min-width: 1200px) {
+
+    :root {
+
+      /* FONT */
+
+      --fs-1: 60px;
+      --fs-4: 26px;
+
+    }
+
+
+
+    /* FİLM CARD */
+
+    .movies-list ul {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    /* HEMEN BAŞLA */
+
+    .cta .container {
+      max-width: 1150px;
+    }
+  }
+
+  /* ACCORDİON START */
+  .accordion {
+    --mdb-accordion-border-color: none;
+    --bs-accordion-bg: var(--partner-3);
+  }
+
+  .accordion-item {
+    color: var(--partner-4);
+    border: none;
+  }
+
+
+  .accordion .accordion-item {
+    border-bottom: 1px solid var(--partner-3);
+  }
+
+  .accordion .accordion-item button[aria-expanded=true] {
+    border-bottom: 1px solid var(--partner-3);
+  }
+
+  .accordion button {
+    position: relative;
+    display: block;
+    text-align: left;
+    width: 100%;
+    padding: 1em 0;
+    color: var(--partner-4);
+    font-size: 1.15rem;
+    font-weight: 400;
+    border: none;
+    background: #040814;
+    outline: none;
+  }
+
+  .accordion button:hover,
+  .accordion button:focus {
+    cursor: pointer;
+    color: var(--partner-3) !important;
+  }
+
+  .accordion button:hover::after,
+  .accordion button:focus::after {
+    cursor: pointer;
+    color: var(--partner-3);
+    border: 1px solid var(--partner-3);
+  }
+
+  .accordion button .accordion-title {
+    padding: 1em 1.5em 1em 0;
+  }
+
+  .accordion button .icon {
+    display: inline-block;
+    position: absolute;
+    top: 18px;
+    right: 0;
+    width: 22px;
+    height: 22px;
+    border: 1px solid;
+    border-radius: 22px;
+  }
+
+  .accordion button .icon::before {
+    display: block;
+    position: absolute;
+    content: "";
+    top: 9px;
+    left: 5px;
+    width: 10px;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .accordion button .icon::after {
+    display: block;
+    position: absolute;
+    content: "";
+    top: 5px;
+    left: 9px;
+    width: 2px;
+    height: 10px;
+    background: currentColor;
+  }
+
+  .accordion button[aria-expanded=true] {
+    color: var(--partner-3);
+  }
+
+  .accordion button[aria-expanded=true] .icon::after {
+    width: 0;
+  }
+
+  .accordion button[aria-expanded=true]+.accordion-content {
+    opacity: 1;
+    max-height: 9em;
+    transition: all 200ms linear;
+    will-change: opacity, max-height;
+    background: #040814;
+  }
+
+  .accordion .accordion-content {
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: opacity 200ms linear, max-height 200ms linear;
+    will-change: opacity, max-height;
+    background: #040814;
+  }
+
+  .accordion .accordion-content p {
+    font-size: 77%;
+    font-weight: 100;
+    margin: 2em 0;
+    padding-bottom: 1rem;
+  }
+
+  /* ACCORDİON END */
+</style>
+  {% endblock css %}
+    
+
+{% block body %}
+
+
+  
+      <!-- Slider Start -->
+      <section class="Slider">
+        <div class="container-fluid p-0">
+            <div class="row w-100 m-0">
+              <div class="card-movie-wrapper">
+
+                <div class="card-movie-carousel">
+              
+                  <div class="card-movie card-movie--light card-movie--looper card-movie--active">
+              
+                    <div class="card-movie__content">
+                    
+                      <div class="card-movie__title">Looper</div>
+                    
+              
+                      <div class="card-movie__details">
+              
+                        <span class="card-movie__details-item">2012</span>
+              
+                        <span class="card-movie__details-item">119 DK</span>
+              
+                        <ul class="card-movie__details-item card-movie__details-list ">
+                          <li>Aksiyon</li>
+                          <li>Suç</li>
+                          <li>Bilimkurgu</li>
+                        </ul>
+              
+                      </div>
+                      <!-- /.card-movie__details -->
+              
+                      <div class="card-movie__description">
+              
+                        <p>Tetikçiler, Looper filminde Rian Johnson'ın yeni filmi olan Tetikçilerde Zamanlar arası gidip gelmenin mümkün olduğu bir dönemde yani 2077 yılında bu olay dönemler arası geçiş yasaktır. Bunu o dönem sadece mafya kullanıyor ve öldürmek istediği kişileri geçmiş zamana tetikçi göndererek halletmektedirler.</p>
+              
+                      </div>
+                      <!-- /.card-movie__description -->
+              
+                    </div>
+                    <!-- /.card-movie__content -->
+              
+                    <div class="card-movie__rating text-light">7.5</div>
+              
+                    <div class="card-movie__player" data-trailer="2iQuhsmtfHw">
+              
+                    </div>
+                    <!-- /.card-movie__player -->
+              
+                  </div>
+                  <!-- /.card-movie card-movie--looper -->
+              
+                  <div class="card-movie card-movie--light card-movie--interstellar">
+              
+                    <div class="card-movie__content">
+              
+                      <div class="card-movie__titleee">Yıldızlararası</div>
+              
+                      <div class="card-movie__details">
+              
+                        <span class="card-movie__details-item">2014</span>
+              
+                        <span class="card-movie__details-item">169 DK</span>
+              
+                        <ul class="card-movie__details-item card-movie__details-list">
+                          <li>Macera</li>
+                          <li>Dram</li>
+                          <li>Bilimkurgu</li>
+                        </ul>
+              
+                      </div>
+                      <!-- /.card-movie__details -->
+              
+                      <div class="card-movie__description">
+              
+                        <p>Dünya gelecekte yaşanmaz hale geldiğinde, bir çiftçi ve eski NASA pilotu Joseph Cooper, insanlar için yeni bir gezegen bulmak üzere bir araştırma ekibiyle birlikte bir uzay aracına pilotluk yapmakla görevlendirilir.</p>
+              
+                      </div>
+                      <!-- /.card-movie__description -->
+              
+                    </div>
+                    <!-- /.card-movie__content -->
+              
+                    <div class="card-movie__rating">8.7</div>
+              
+                    <div class="card-movie__player" data-trailer="3WzHXI5HizQ">
+              
+                    </div>
+                    <!-- /.card-movie__player -->
+              
+                  </div>
+                  <!-- /.card-movie card-movie--interstellar -->
+              
+                  <div class="card-movie card-movie--light card-movie--walter-mitty">
+              
+                    <div class="card-movie__content">
+              
+                      <div class="card-movie__title">Walter Mitty</div>
+              
+                      <div class="card-movie__details">
+              
+                        <span class="card-movie__details-item">2013</span>
+              
+                        <span class="card-movie__details-item">114 DK</span>
+              
+                        <ul class="card-movie__details-item card-movie__details-list">
+                          <li>Macera</li>
+                          <li>Komedi</li>
+                          <li>Dram</li>
+                        </ul>
+              
+                      </div>
+                      <!-- /.card-movie__details -->
+              
+                      <div class="card-movie__description">
+              
+                        <p>Hem kendisinin hem de iş arkadaşının işi tehdit edildiğinde, gerçek dünyada harekete geçen Walter, hayal bile edemeyeceği kadar sıra dışı bir maceraya dönüşen küresel bir yolculuğa çıkar.</p>
+              
+                      </div>
+                      <!-- /.card-movie__description -->
+              
+                    </div>
+                    <!-- /.card-movie__content -->
+              
+                    <div class="card-movie__rating">7.4</div>
+              
+                    <div class="card-movie__player" data-trailer="QD6cy4PBQPI">
+              
+                    </div>
+                    <!-- /.card-movie__player -->
+              
+                  </div>
+                  <!-- /.card-movie card-movie--walter-mitty -->
+              
+                  <div class="card-movie card-movie--dark card-movie--cloud-atlas">
+              
+                    <div class="card-movie__content">
+              
+                      <div class="card-movie__titlee">Cloud Atlas</div>
+              
+                      <div class="card-movie__details">
+              
+                        <span class="card-movie__details-item text-light">2012</span>
+              
+                        <span class="card-movie__details-item text-light">172 DK</span>
+              
+                        <ul class="card-movie__details-item card-movie__details-list text-light">
+                          <li>Dram</li>
+                          <li>Bilimkurgu</li>
+                        </ul>
+              
+                      </div>
+                      <!-- /.card-movie__details -->
+              
+                      <div class="card-movie__description text-light">
+              
+                        <p>Bir ruh bir katilden bir kahramana dönüşürken ve bir iyilik eylemi bir devrime ilham vermek için yüzyıllar boyunca dalgalanırken, bireysel yaşamların eylemlerinin geçmişte, şimdi ve gelecekte birbirini nasıl etkilediğine dair bir keşif.</p>
+              
+                      </div>
+                      <!-- /.card-movie__description -->
+              
+                    </div>
+                    <!-- /.card-movie__content -->
+              
+                    <div class="card-movie__rating" style="color: white !important;">7.5</div>
+              
+                    <div class="card-movie__player" data-trailer="hWnAqFyaQ5s">
+              
+                    </div>
+                    <!-- /.card-movie__player -->
+              
+                  </div>
+                  <!-- /.card-movie card-movie--cloud-atlas -->
+              
+                </div>
+                <!-- /.card-movie-carousel -->
+              
+                <div class="card-movie-navigation">
+              
+                  <ul class="card-movie-navigation__list" data-navigation>
+                    <li class="is-active"></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                  </ul>
+                  <!-- /.card-movie-navigation__list -->
+              
+                  <button type="button" data-play></button>
+              
+                </div>
+                <!-- /.card-movie-navigation -->
+              
+              </div>
+            </div>
+        </div>
+      </section>
+      <!-- Slider End -->
+
+      <!-- Line Start -->
+      <div class="container-fluid mt-5">
+        <div class="row">
+          <img src="{% static 'img/Line/Line.png' %}" alt="Line">
+        </div>
+      </div>
+      <!-- Line End -->
+
+      <!-- Movie-Card Start -->
+      <section class="top-rated">
+  <div class="container-fluid pt-3">
+    <div class="row ">
+      <p class="section-subtitle">HAFTANIN TRENDLERİ</p>
+      <h2 class="h2 section-title">En Çok İzlenen 4 Film</h2>
+      <div class="filter-list">
+        <ul>
+          <li>
+            <button class="filter-btn" onclick="NewAdd()">YENİ EKLENENLER</button>
+          </li>
+          <li>
+            <button class="filter-btn" onclick="Featured()">ÖNE ÇIKANLAR</button>
+          </li>
+        </ul>
+      </div>
+      <div class="movies-list w-75 px-5" id="Movie-Container">
+        <ul>
+          {% for i in series|slice:'4' %}
+          <li>
+            <div class="movie-card">
+              <a href="#">
+                <figure class="card-banner">
+                      <img src="{{ i.image.url }}" alt="Film Görseli">
+                </figure>
+              </a>
+              <div class="title-wrapper">
+                <a href="#">
+                  <h3 class="card-title">{{ i.title }}</h3>
+                </a>
+                <time datetime="2023">{{ i.year }}</time>
+              </div>
+              <div class="card-meta">
+                
+                {% for s in i.subcategory.all %}
+                <div class="badge badge-outline">{{ s }}</div>
+                {% endfor %}
+                  
+                <div class="duration">
+                </div>
+                <div class="rating">
+                  <data>{{ i.Runtime }}</data>
+                  <ion-icon name="star"></ion-icon>
+                  <data>7.8</data>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+      <div class="movies-list w-75 px-5" id="Movie-Container2" style="display: none;">
+        <ul>
+          {% for i in movies|slice:":4" %}
+          <li>
+            <div class="movie-card">
+              <a href="#">
+                <figure class="card-banner" >
+                  {% for image_data in i.image %}
+                      <img src="{{ i.image.url }}" alt="Film Görseli" >
+                  {% endfor %}
+                </figure>
+              </a>
+              <div class="title-wrapper">
+                <a href="#">
+                  <h3 class="card-title">{{ i.title }}</h3>
+                </a>
+                <time datetime="2023">{{ i.yil }}</time>
+              </div>
+              <div class="card-meta">
+                {% for s in i.subcategory.all %}
+                <div class="badge badge-outline">{{ s }}</div>
+                {% endfor %}
+                <div class="duration">
+                </div>
+                <div class="rating">
+                  <data>{{ i.Runtime }}</data>
+                  <ion-icon name="star"></ion-icon>
+                  <data>8.7</data>
+                </div>
+              </div>
+            </div>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+      <!-- Movie-Card End -->
+
+      <!-- Line Start -->
+        <div class="container-fluid">
+          <div class="row">
+            <img src="{% static 'img/Line/Line.png' %}" alt="Line">
+          </div>
+        </div>
+      <!-- Line End -->
+
+      <!-- Screens Start -->
+      <section class="Screen">
+        <div class="container my-5">
+        <div class="row my-5">
+          <h1 class="text-light text-center">Dilediğin Zaman, Dilediğin Yerden İzle</h1>
+          <img src="{% static 'img/Ekranlar/Group.png' %}" alt="Line" class="mt-3">
+        </div>
+        </div>
+      </section>
+      <!-- Screens End -->
+
+    <!-- Line Start -->
+    <div class="container-fluid">
+      <div class="row">
+        <img src="{% static 'img/Line/Line.png' %}" alt="" class="mb-5">
+      </div>
+    </div>
+    <!-- Line End -->
+
+    <!-- Accordion Start -->
+    <div class="container">
+      <h2 class="text-center text-light mb-5">SIKÇA SORULAN SORULAR</h2>
+      <div class="accordion">
+        <div class="accordion-item">
+          <button id="accordion-button-1" aria-expanded="false"><span class="accordion-title">..... Nedir?</span><span class="icon" aria-hidden="true"></span></button>
+          <div class="accordion-content">
+            <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren geniş bir arşiv sunan bir streaming hizmetidir.
+              Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-2" aria-expanded="false"><span class="accordion-title">..... Maliyeti Nedir?</span><span class="icon" aria-hidden="true"></span></button>
+          <div class="accordion-content">
+            <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren geniş bir arşiv sunan bir streaming hizmetidir.
+              Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!.</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-3" aria-expanded="false"><span class="accordion-title">..... Nerede İzleyebilirim?</span><span class="icon" aria-hidden="true"></span></button>
+          <div class="accordion-content">
+            <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren geniş bir arşiv sunan bir streaming hizmetidir.
+              Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-4" aria-expanded="false"><span class="accordion-title">..... Nasıl İptal Ederim?</span><span class="icon" aria-hidden="true"></span></button>
+          <div class="accordion-content">
+            <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren geniş bir arşiv sunan bir streaming hizmetidir.
+              Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-5" aria-expanded="false"><span class="accordion-title">..... Ne izleyebilirim?</span><span class="icon" aria-hidden="true"></span></button>
+          <div class="accordion-content">
+            <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren geniş bir arşiv sunan bir streaming hizmetidir.
+              Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!</p>
+          </div>
+        </div>
+        <div class="accordion-item">
+          <button id="accordion-button-6" aria-expanded="false"><span class="accordion-title">..... Çocuklar için uygu</span><span class="icon" aria-hidden="true"></span></button>
+          <div class="accordion-content">
+            <p> internet bağlantılı binlerce cihazda ödüllü diziler, filmler, animeler, belgeseller ve daha fazlasını içeren geniş bir arşiv sunan bir streaming hizmetidir.
+              Tek bir reklam olmadan, istediğiniz kadar, istediğiniz zaman izleyebilirsiniz - hepsi aylık düşük bir ücret karşılığında. Her zaman keşfedilecek yeni bir şeyler var, üstelik her hafta yeni diziler ve filmler ekleniyor!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Accordion End -->
+
+    <!-- HEMEN BAŞLA -->
+    
+    <div class="container">
+      <div class="row ">
+        <section class="cta">
+            <div class="container">
+    
+              <div class="title-wrapper ">
+                <h2 class="cta-title text-light">30 Gün Ücretsiz Deneyin !</h2>
+    
+                <p class="cta-text text-light">
+                  Üyeliğinizi oluşturmak veya yeniden başlatmak için e-postanızı girin.
+                </p>
+              </div>
+    
+              <form action="" class="cta-form">
+                <input type="email" name="email" required placeholder="Email Adresinizi Giriniz.." class="email-field">
+                
+                <button type="submit" class="cta-form-btn">Hemen Başla</button>
+              </form>
+    
+            </div>
+        </section>
+        
+      </div>
+    </div>
+    <!-- HEMEN BAŞLA END -->
+    
+    
+    
+    
+    <!-- HIZLI GEÇİŞ -->
+    
+    <a href="#top" class="go-top" data-go-top>
+      <ion-icon name="chevron-up"></ion-icon>
+    </a>
+    
+
+
+    <script>
+          var acc = document.getElementsByClassName("accordion-button");
+          var i;
+            for (i = 0; i < acc.length; i++) {
+              acc[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var icerik = this.nextElementSibling;
+                if (icerik.style.display === "block") {
+                    icerik.style.display = "none";
+                } else {
+                    icerik.style.display = "block"
+                }
+              });
+            }
+
+              /* Accordion START */
+            const items = document.querySelectorAll(".accordion button");
+
+            function toggleAccordion() {
+              const itemToggle = this.getAttribute('aria-expanded');
+              
+              for (i = 0; i < items.length; i++) {
+                items[i].setAttribute('aria-expanded', 'false');
+              }
+              
+              if (itemToggle == 'false') {
+                this.setAttribute('aria-expanded', 'true');
+              }
+            }
+
+            items.forEach(item => item.addEventListener('click', toggleAccordion));
+            /* Accordion END */
+
+            /* HIZLI ÇIKIŞ*/
+
+            const goTopBtn = document.querySelector("[data-go-top]");
+
+            window.addEventListener("scroll", function () {
+
+              window.scrollY >= 500 ? goTopBtn.classList.add("active") : goTopBtn.classList.remove("active");
+
+            });
+          /* HIZLI ÇIKIŞ END*/
+            /* MOVİE-CARD-CONTAİNER-CHANGE-BUTON */
+            function NewAdd() {
+              movcon = document.getElementById('Movie-Container');
+              movcon2 = document.getElementById('Movie-Container2');
+              if (movcon.style.display === 'none'){
+                movcon.style.display = 'block'
+                movcon2.style.display = 'none'
+              }
+            }
+            function Featured() {
+              movcon = document.getElementById('Movie-Container');
+              movcon2 = document.getElementById('Movie-Container2');
+              if (movcon2.style.display === 'none'){
+                movcon2.style.display = 'block'
+                movcon.style.display = 'none'
+              }
+            }
+    </script>
+    {% endblock body %}

@@ -1,0 +1,679 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block title %}Register{% endblock title %}
+
+{% block css %}
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    .register_CT {
+        /* margin-left: 40px;
+        margin-right: 40px; */
+        background-color: #092032;
+        position: relative;
+        height: 100%;
+        color: #EFEFEF;
+        font-family: 'Poppins', sans-serif;
+
+    }
+
+    .form-floating>label {
+        font-size: 14px !important;
+    }
+
+    .form-control.is-invalid {
+        margin-bottom: 0 !important;
+    }
+
+    .register_CT .register-table {
+        background-color: #2C394A;
+        border: 2px solid #205375;
+        border-radius: 10px;
+        -webkit-border-radius: 10px;
+        -moz-border-radius: 10px;
+        -ms-border-radius: 10px;
+        -o-border-radius: 10px;
+    }
+
+    .register_CT .register-table .register-button {
+        background-color: #205375;
+        border: 0;
+        color: #fff;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 18px;
+        font-weight: 600;
+        outline: 0;
+        position: relative;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s;
+        -moz-user-select: none;
+        user-select: none;
+        -webkit-user-select: none;
+        touch-action: manipulation;
+    }
+
+    .register_CT .register-table .register-button::before {
+        background-color: initial;
+        background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+        content: "";
+        left: 4%;
+        opacity: 0.5;
+        position: absolute;
+        top: 0;
+        transition: all 0.3s;
+    }
+
+    .register_CT .register-table .register-button:hover {
+        box-shadow: rgba(255, 255, 255, 0.2) 0 3px 15px inset, rgba(0, 0, 0, 0.1) 0 3px 5px, rgba(0, 0, 0, 0.1) 0 10px 13px;
+    }
+</style>
+
+{% endblock css %}
+
+
+{% block body %}
+{% for i in messages %}
+{% if i.tags == "success" %}
+<div class="alert alert-success alert-dismissible fade show fw-bold" role="alert"
+    style="position: fixed; top: 50px; right: 50px; z-index: 1050; min-width: 350px !important; width: fit-content;">
+    {{ i }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+{% if i.tags == "warning" %}
+<div class="alert alert-danger alert-dismissible fade show fw-bold" role="alert"
+    style="position: fixed; top: 100px; right: 50px; z-index: 1050; min-width: 350px !important; width: fit-content;">
+    {{ i }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endfor %}
+
+
+
+<div class="container-fluid" style="padding: 0 4%;">
+
+    <img src="{% static 'img/new-user-img/back-top.png' %}"
+        style="position: fixed; top: 0; left: 0; width: 100%; max-height: 300px; z-index: -5;">
+    <img src="{% static 'img/new-user-img/back-down.png' %}"
+        style=" position: fixed; bottom: 0;left: 0; width: 100%; max-height: 300px; z-index: -5;">
+
+    <section class="register_CT">
+
+
+        <div class="row d-flex justify-content-center ">
+            <div class="col col-sm-10 col-md-8 col-lg-6 py-3 ">
+                <div class="register-table align-self-center p-3">
+
+                    <h3 class="text-center fw-bold">~~ Üyelik Formu ~~</h3>
+                    <p class="text-center">Üyemiz olarak dizi, film, belgesel yayınlarımızı keşfedin.</p>
+
+                    <form action="" method="POST">
+                        {% csrf_token %}
+                        <div class="row g-3 register-form">
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="text" name="name" id="input_name"
+                                        placeholder="Adınız" value="{{ name }}" required>
+                                    <label for="input_name" class="text-dark">Adınız</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="text" name="surname" id="input_surname"
+                                        placeholder="Soyadınız" value="{{ surname }}" required>
+                                    <label for="input_surname" class="text-dark">Soyadınız</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    <input
+                                        class="form-control {% if hata == 'username' %} border border-danger border-3 is-invalid {% endif %}"
+                                        type="text" name="username" id="input_username" placeholder="Kullanıcı Adı"
+                                        value="{{ username }}" required>
+                                    <label for="input_username" class="text-dark">Kullanıcı
+                                        Adı</label>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-floating">
+                                    <input
+                                        class="form-control {% if hata == 'email' %} border border-danger border-3 is-invalid {% endif %}"
+                                        type="email" name="email" id="input_email" placeholder="E-posta Adresiniz"
+                                        value="{{ email }}" required>
+                                    <label for="input_email" class="text-dark">E-posta
+                                        Adresiniz</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    <input
+                                        class="form-control {% if hata == 'tel' %} border border-danger border-3 is-invalid {% endif %}"
+                                        type="tel" name="tel" id="input_tel" placeholder="Telefon Numaranız"
+                                        value="{{ tel }}" required>
+                                    <label for="input_tel" class="text-dark">Telefon Numaranız</label>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    <input class="form-control" type="date" name="birthdate" id="input_birthdate"
+                                        placeholder="Doğum Tarihiniz" value="{{ birthdate }}" required>
+                                    <label for="input_birthdate" class="text-dark">Doğum
+                                        Tarihiniz</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <p><span class="text-danger">*</span> Şifreniz en az 6 karakterden oluşmalıdır!</p>
+                                <p><span class="text-danger">*</span> Şifreniz en az 1 rakam içermelidir!</p>
+                                <p><span class="text-danger">*</span> Şifreniz en az 1 tane büyük harf içermelidir!</p>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    <input
+                                        class="form-control password {% if hata == 'password' %} border border-danger border-3 is-invalid {% endif %}"
+                                        type="password" name="password1" id="input_password1" placeholder="Parolanız"
+                                        required>
+                                    <label for="input_password1" class="text-dark">Parolanız</label>
+                                    <i class="bi bi-eye text-dark fs-4"
+                                        style="position: absolute; top: 20%; right: 5px; cursor: pointer; display: none;"
+                                        onclick="showPword()" id="bi-eye"></i>
+                                    <i class="bi bi-eye-slash text-dark fs-4"
+                                        style="position: absolute; top: 20%; right: 5px; cursor: pointer;"
+                                        onclick="showPword()" id="bi-eye-slash"></i>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-floating">
+                                    <input
+                                        class="form-control password1 {% if hata == 'password' %} border border-danger border-3 is-invalid {% endif %}"
+                                        type="password" name="password2" id="input_password2"
+                                        placeholder="Tekrar parola" required>
+                                    <label for="input_password2" class="text-dark">Parolanızı Tekrar
+                                        giriniz</label>
+                                    <i class="bi bi-eye text-dark fs-4"
+                                        style="position: absolute; top: 20%; right: 5px; cursor: pointer; display: none;"
+                                        onclick="showPword1()" id="bi-eye1"></i>
+                                    <i class="bi bi-eye-slash text-dark fs-4"
+                                        style="position: absolute; top: 20%; right: 5px; cursor: pointer;"
+                                        onclick="showPword1()" id="bi-eye-slash1"></i>
+                                </div>
+                            </div>
+                            <div class="col-12 my-3">
+                                <input class="form-check-input" type="checkbox" value="" id="contact_permission"
+                                    required>
+                                <label class="form-check-label" for="contact_permission" required><a
+                                        class="text-decoration-underline" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop">İletişim izinlerini</a> ve <a
+                                        class="text-decoration-underline" type="button" data-bs-toggle="modal"
+                                        data-bs-target="#staticBackdrop1">üyelik sözleşmesini</a> okuduğunuzu ve kabul
+                                    ettiğinizi onaylıyorsunuz.</label>
+                            </div>
+                            <!-- İLETİŞİM İZİZNLERİ MODAL -->
+                            <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">İletişim
+                                                İzinleri</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="text-dark">
+                                                MOVİEX tarafından sunulan ürün ve hizmetlere ilişkin avantajlardan
+                                                yararlanmak ve ihtiyaçlarıma özel fırsatların geliştirilmesi, özel
+                                                günlerimin kutlanması ile reklam, kampanya, promosyon ve tanıtım
+                                                yapılması
+                                                amacıyla tarafıma ticari elektronik ileti gönderilmesini, kabul
+                                                ediyorum.
+
+                                                Hesabım sayfasında bulunan Bildirim Tercihleri menüsünden vermiş
+                                                olduğunuz
+                                                ticari elektronik onayınızı her zaman geri alabilirsiniz.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- ÜYELİK SÖZLEŞMESİ MODAL -->
+                            <div class="modal fade" id="staticBackdrop1" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-scrollable">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5 text-dark" id="staticBackdropLabel">Üyelik
+                                                Sözleşmesi</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p class="text-dark">
+                                                1. TARAFLAR
+                                                <br>
+                                                İşbu Üyelik Sözleşmesi (bundan sonra “Sözleşme” olarak anılacaktır.)
+                                                MOVIEX
+                                                İLETİŞİM VE DİJİTAL YAYIN HİZMETLERİ A.Ş. (Mersis No: 0178077020800011),
+                                                (bundan sonra “moviex” olarak anılacaktır) ile www.moviex.com adresinden
+                                                ve/veya mobil cihaz, akıllı televizyon ve benzeri cihazlar üzerinde yer
+                                                alan
+                                                moviex uygulamalarından moviex’nin sunduğu ücretli ve/veya ücretsiz
+                                                video,
+                                                müzik, canlı TV yayını, oyun ve benzeri içerik hizmetlerinden (bundan
+                                                sonra
+                                                “Dijital İçerik” olarak anılacaktır) faydalanmak için işbu Sözleşmeyi
+                                                onaylamak isteyen tüketici (bundan sonra “ALICI” olarak anılacaktır)
+                                                arasında ALICI’nın elektronik ortamda bulunan “Üyelik Sözleşmesini Kabul
+                                                Ediyorum” butonunu tıklaması ve kabul beyanının MOVIEX kayıtlarına
+                                                geçtiği
+                                                an kurulmuş ve yürürlüğe girmiştir.
+
+                                                2. ÖN BİLGİLENDİRME TEYİDİ
+                                                <br>
+                                                ALICI, 29188 sayılı Resmi Gazete’de yayımlanan Mesafeli Sözleşmeler
+                                                Yönetmeliği’ne uygun olarak satışa konu dijital içerik hizmetlerin temel
+                                                nitelikleri, satış bedeli, ödeme şekli ve diğer tüm hususlarda bilgi
+                                                sahibi
+                                                olduğunu ve kendisine ön bilgilendirmenin yapılmış olduğunu ve işbu
+                                                Sözleşme’nin bağlayıcı olduğunu kabul ve beyan eder.
+
+                                                3. SÖZLEŞME KONUSU HİZMETLER VE ÖZELLİKLERİ
+                                                <br>
+                                                ALICI, işbu Sözleşme ve işbu Sözleşme’nin ayrılmaz parçası sayılan Ön
+                                                Bilgilendirme Formu’nda özellikleri belirtilen Dijital İçerik
+                                                Hizmetleri’ni
+                                                satın almıştır. Satın alınan Dijital İçerik Hizmetleri’nin özellikleri
+                                                ve
+                                                kullanım koşulları www.moviex.com adlı web sitesindeki tanıtım
+                                                sayfasında ve
+                                                Ön Bilgilendirme Formu’nda belirtildiği gibidir.
+
+                                                İşbu Sözleşme ile MOVIEX, www.moviex.com adresinde ve/veya mobil cihaz,
+                                                akıllı televizyon ve benzeri cihazlar üzerinde yer alan moviex
+                                                uygulamalarından moviex’nin sunduğu ve moviex’nin tek taraflı takdir
+                                                hakkına
+                                                bağlı olarak belirlenecek Dijital İçerik Hizmetlerini, seçilen hizmet
+                                                kategorisine ilişkin lisans sınırlamaları dahilinde, önceden belirtilen
+                                                fiyat ve koşullarda ALICI’ya sunmayı; ALICI da moviex kullanım
+                                                şartlarını
+                                                kabul ederek hizmet bedelini zamanında moviex’ye ödemeyi taahhüt eder.
+
+                                                ALICI, işbu Sözleşme ve Sözleşme’nin ayrılmaz parçası sayılan Ön
+                                                Bilgilendirme Formu’nda özellikleri belirtilen Dijital İçerik
+                                                Hizmetleri’nin
+                                                fiziksel bir teslimatının olmadığını, gayri maddi nitelikte olan Dijital
+                                                İçerik Hizmetleri’nin elektronik ortamda sunulacağını ve teslim
+                                                edileceğini
+                                                kabul eder.
+
+                                                4. SÖZLEŞME TARİHİ
+                                                <br>
+                                                İşbu Sözleşme, ALICI tarafından Ön Bilgilendirme Formu ve Sözleşme’nin
+                                                okunduğunun ve kabul edildiğinin beyan edilmesiyle akdedilmiş olup ve bu
+                                                andan itibaren hüküm ve sonuç doğuracaktır.
+
+                                                5. ÜYELİK İŞLEMLERİ
+                                                <br>
+                                                a. ALICI, kayıt sırasında vermiş olduğu elektronik posta adresi ile bir
+                                                üyelik oluşturma imkanına sahiptir. Aynı elektronik posta adresi ile
+                                                birden
+                                                fazla üyelik oluşturulamaz. ALICI, kayıt sırasında vermiş olduğu
+                                                elektronik
+                                                posta adresini kullanıcı adı olarak kullanacak ve kendi belirleyeceği
+                                                şifreye sahip olacaktır. ALICI, şifresini dilediği zaman değiştirebilir.
+                                                Şifre seçimi, değişimi ve korunmasına dair sorumluluk tamamen ALICI’ya
+                                                aittir.
+
+                                                b. ALICI, üyelik oluşturulması ve hizmetlerin kullanılması sırasında,
+                                                moviex’ye bildirdiği tüm bilgilerin doğru olduğunu ve bu bilgilerin
+                                                gerekli
+                                                olduğu durumlarda hatalı veya noksan olmasından kaynaklanabilecek
+                                                sorunlardan moviex’nin bir sorumluluğu bulunmadığını kabul ve taahhüt
+                                                eder.
+                                                ALICI’nın bilgilerinde değişklik olması halinde söz konusu bilgilerin
+                                                güncellenmesi ALICI’nın sorumluluğundadır.
+
+                                                c. ALICI, Sözleşme konusu Dijital İçerik Hizmetleri’ni belirlediği
+                                                kullanıcı
+                                                adı ve şifrenin girilmesi suretiyle kullanabileceğini, kullanıcı adı
+                                                ve/veya
+                                                şifrenin hatalı girilmesi nedeniyle hizmetlerin kullanılamamasından
+                                                moviex’nin sorumlu bulunmadığını kabul ve taahhüt eder.
+
+                                                d. ALICI, şifre ve kullanıcı adının gizli kalması için gerekli dikkat ve
+                                                özeni göstereceğini, şifreyi ve kullanıcı adını herhangi bir üçüncü
+                                                şahsa
+                                                açıklamayacağını, kullandırmayacağını, şifresinin yetkisiz üçüncü
+                                                şahıslar
+                                                tarafından ele geçirildiğini öğrenmesi veya bundan şüphelenmesi halinde
+                                                derhal moviex’ye haber vereceğini, şifre ve kullanıcı adının üçüncü
+                                                şahıslar
+                                                tarafından kullanılması sebebiyle doğacak zararlardan moviex’nin sorumlu
+                                                olmayacağını kabul ve taahhüt eder.
+
+                                                6. TARAFLARIN BEYAN VE TAAHHÜTLERİ
+                                                <br>
+                                                a. ALICI, işbu Sözleşme’nin yürürlüğe girmesiyle birlikte, Sözleşme
+                                                konusu
+                                                Dijital İçerik Hizmetleri’ni satın alarak Ön Bilgilendirme Formunda,
+                                                www.moviex.com ve moviex uygulamalarında belirtilen kullanım şartları ve
+                                                sınırlandırmalar kapsamında hizmet alma hakkını elde etmiştir.
+
+                                                b. ALICI, moviex’nin sunduğu ve 5846 sayılı Fikir ve Sanat Eserleri
+                                                Kanunu’na uygun olarak lisans haklarına sahip olduğu Dijital İçerik
+                                                Hizmetleri’nin ancak işbu Sözleşme şartları kapsamında bireysel amaçla
+                                                kullanılabileceğini ve Sözleşme ile açıkça belirtilmemiş hiçbir yetkinin
+                                                ALICI’ya devredilmemiş olduğunu kabul ve taahhüt eder.
+
+                                                c. moviex’nin işbu Sözleşme kapsamında Dijital İçerik Hizmetleri sunuyor
+                                                olmasının, ALICI’ya donanım ve/veya yazılım temini veya mevcut donanım
+                                                ve/veya yazılımın düzgün çalışması konusunda bir taahhüt ya da garanti
+                                                verdiği anlamına gelmemektedir.
+
+                                                d. moviex, teknik sorun ve/veya geliştirmelerden kaynaklanan nedenlerle
+                                                herhangi bir zamanda sistemin çalışmasını ve hizmetlerin verilmesini
+                                                geçici
+                                                olarak askıya alabilecek veya tamamen durdurabilecektir. Söz konusu
+                                                kesintiler bir gün içerisinde toplam 1 (bir) saat ve 1 (bir) ay
+                                                içerisinde
+                                                toplam 24 (yirmi dört) saati aşmayacaktır. ALICI, bu nedenle hizmetlerin
+                                                geçici bir süre için askıya alınmasından dolayı moviex’den herhangi bir
+                                                nam
+                                                altında tazminat ve benzeri hak ve bedel talep etmeyeceğini kabul ve
+                                                taahhüt
+                                                eder.
+
+                                                e. moviex’nın sunduğu Dijital İçerik Hizmetleri, sektörel standartlar
+                                                paralelinde, mümkün olduğunca kesintisiz, sürekli, güvenli ve kaliteli
+                                                olacaktır. ALICI, internette yaşanan kesintiler, hız düşmesi ve benzeri
+                                                sebeplerle hizmette yaşanacak kesinti, görüntü kalitesi ve güvenlik
+                                                problemlerinden ve/veya ülkede genel bir karışıklığın ortaya çıkması
+                                                savaş,
+                                                terör, grev, genel elektrik kesintisi, deprem, su baskını, olağanüstü
+                                                hal,
+                                                siber saldırı, cihazlara virüs bulaşmış olması veya benzeri bir mücbir
+                                                sebeple hizmetin verilmesine ilişkin yaşanacak sorunlardan moviex’nin
+                                                sorumlu olmayacağını kabul ve taahhüt eder.
+
+                                                f. MOVIEX, Dijital İçerik Hizmetlerini sunduğu internet sitesine ait
+                                                alan
+                                                adını ve internet sitesi ve/veya aplikasyonların görünümünü, içeriğini
+                                                ve
+                                                dijital içerikleri her zaman için değiştirme hakkını saklı tutar.
+
+                                                g. ALICI, moviex’nin teknik zorunluluklar veya mevzuatta meydana gelecek
+                                                değişiklikler ve benzeri zorlayıcı sebeplerle, işbu Sözleşme hükümlerini
+                                                tek
+                                                taraflı olarak değiştirebileceğini, yeni maddeler ekleyebileceğini veya
+                                                maddeleri çıkarabileceğini kabul, beyan ve taahhüt eder. Sözleşme’de
+                                                yapılacak değişikliklerin ALICI tarafından kabul edilmemesi halinde
+                                                ALICI,
+                                                işbu Sözleşme’yi derhal feshetmek hakkına sahip olacaktır. moviex,
+                                                Sözleşme’de meydana gelecek değişikliklerin ALICI tarafından kabul
+                                                edilmemesi halinde, Dijital İçerik Hizmetlerini sunmama, askıya alma
+                                                veya
+                                                sözleşmeyi feshetme hakkına sahip olacaktır.
+
+                                                h. ALICI, işbu Sözleşme ile faydalanmak istediği ücretli hizmetlerden
+                                                faydalanabilmek için bilgisayarının yahut ürün ve/veya hizmeti
+                                                kullanacağı
+                                                diğer elektronik cihazlar ile teknik donanımının hizmetlere uygun
+                                                gerekli
+                                                asgari kriterleri karşıladığını, bu kriterlere uygun olmayan bilgisayar
+                                                ve/veya teknik donanım sebebiyle hizmetlerden faydalanamama durumunda,
+                                                moviex’nin herhangi bir sorumluluğunun olmadığını, herhangi bir nam
+                                                altında
+                                                moviex’den herhangi bir talepte bulunmayacağını kabul, beyan ve taahhüt
+                                                eder.
+
+                                                i. ALICI, moviex’nin internet üzerinden veri akışı ile gerçekleşen bir
+                                                hizmet olduğunu, ALICI’nın moviex hizmetlerinden yararlandığı sırada
+                                                bağlantı kurduğu internet paketinin kotasının bu durumdan etkileneceğini
+                                                ve
+                                                moviex’nin oluşabilecek erişim giderleri, kota aşımı ve sonuçlarından
+                                                sorumlu olmadığını kabul, beyan ve taahhüt eder.
+
+                                                7. KİŞİSEL VERİLERİN KORUNMASI
+                                                <br>
+                                                a. MOVIEX, ALICI’ya daha iyi hizmet verebilmek ve ürün sunabilmek adına
+                                                ve
+                                                ALICI’nın beklentilerine daha uygun içerikler sağlamak amacıyla,
+                                                www.moviex.com internet adresi, moviex uygulamaları veya çağrı merkezi
+                                                üzerinden adı, soyadı, doğum tarihi, adresi, telefon numarası,
+                                                elektronik
+                                                posta adresi gibi özel nitelikli olmayan kişisel verileri
+                                                kaydetmektedir.
+
+                                                b. moviex, kişisel veri sahibi olan ALICI’yı aydınlatmakla yükümlü olup,
+                                                bu
+                                                kapsamda ALICI, Ön Bilgilendirme Formu’nu, işbu sözleşmeyi, moviex’nin
+                                                internet sayfasında yer alan Gizlilik ve ilgili Politikalarını okuduğunu
+                                                ve
+                                                moviex’nin 6698 sayılı Kişisel Verilerin Korunması Kanunu (bundan
+                                                sonra“KVKK” olarak anılacaktır.)’ndan doğan aydınlatma yükümlülüğünü
+                                                yerine
+                                                getirdiğini kabul ve beyan eder. ALICI, Ön Bilgilendirme formunu ve işbu
+                                                sözleşmeyi kabul etmesiyle beraber kişisel verilerinin işlenmesine,
+                                                aktarılmasına ve saklanmasına icazet etmiş sayılır.
+
+                                                c. ALICI, üyelik süresince kendisi tarafından aktarılan kişisel
+                                                verilerinin
+                                                doğru ve gerektiğinde güncel olmasını sağlama yükümlülüğünü kabul ve
+                                                taahhüt
+                                                eder.
+
+                                                d. moviex; ALICI ‘nın aktardığı kişisel verilerini, işbu Sözleşme
+                                                kapsamı ve
+                                                amacı ile sınırlı olarak işleyeceğini, aktaracağını ve saklayacağını
+                                                kabul
+                                                ve taahhüt eder. moviex, işbu Sözleşme kapsamında kendisine aktarılan
+                                                kişisel verileri ürün ve hizmetlerin doğru bir şekilde sunulması amacı
+                                                ile
+                                                ve tüketici sorularına yanıt vermek üzere, elektronik posta, posta veya
+                                                telefon yoluyla kullanabilir. MOVIEX, ALICI’nın kendisine aktardığı
+                                                kişisel
+                                                verileri pazarlama faaliyetleri ve benzeri amaçlarla yasal sınırlamalar
+                                                dahilinde haberleşme amacı ile, e-posta, posta veya telefon yoluyla
+                                                kullanabilir. İşbu Sözleşmenin alt kısmında promosyon ve tanıtımlara
+                                                ilişkin
+                                                özel rıza alınmaktadır. moviex, hizmet sunmak amacıyla sınırlı olacak
+                                                şekilde kişisel verileri profillemede kullanma hakkını saklı tutar.
+
+                                                e. moviex, ALICI bilgilerini 3. kişilere aktarabilir. ALICI verilerinin
+                                                aktarımı hususunda moviex Kişisel Verilerin Korunması ve İşlenmesi
+                                                Politikası’na yer alan usul ve esaslar uygulanır. 3. kişiler ile
+                                                paylaşılan
+                                                kişisel veriler ürün ve hizmetlerin sunumu ve hizmet kalitesinin
+                                                artırılması
+                                                amacına yöneliktir. ALICI’nın kişisel verileri işbu Sözleşme’nin amacı
+                                                dışında işlenemez. MOVIEX, ALICI’nın kişisel verilerini işbu sözleşmede
+                                                mezkur amaçlar dışında kullanmalarına olanak verecek şekilde satmayacak
+                                                ve
+                                                açıklamayacaktır. KVKK’da öngörülen istisnai haklar saklıdır.
+
+                                                f. moviex, KVKK’nun öngördüğü iç ve dış denetimleri yaptıracağını
+                                                taahhüt
+                                                eder.
+
+                                                g. ALICI’nın, bir ücrete tabi olmadan kişisel verilerine erişim hakkı
+                                                bulunmaktadır. ALICI, MOVIEX ile www.moviex.com adresinden (veya
+                                                internet
+                                                sitesinde bulunan form aracılığı ile) irtibata geçerek; KVKK’undan doğan
+                                                haklarını talep edebilir. moviex, ALICI’ya makul süre içerisinde cevap
+                                                verecektir.
+
+                                                h. ALICI’nın çerez uygulamalarını kabul etmesi halinde çerezler,
+                                                www.moviex.com internet adresinde yer alan Çerez Politikası’na uygun
+                                                şekilde
+                                                ALICI’nın cihazına yerleştirilir.
+
+                                                i. moviex, ALICI tarafından yapılan kişisel verilerinin işlenmesi,
+                                                aktarılması ve / veya muhafaza edilmesi ile ilgili talepleri niteliğine
+                                                göre
+                                                en kısa sürede ve her halükarda en geç 30 (otuz) gün içinde ücretsiz
+                                                olarak
+                                                sonuçlandırır. Bu sürenin başlayabilmesi için ALICI talebini yazılı veya
+                                                Kişisel Verileri Koruma Kurulu’nun belirlediği diğer yöntemlerle
+                                                moviex’ye
+                                                göndermelidir. Talebin MOVIEX tarafından reddedilmesi, verilen cevabın
+                                                yetersiz bulunması veya süresinde cevap verilmemesi hallerinde; ALICI
+                                                cevabı
+                                                öğrendiği tarihten itibaren 30 (otuz) gün ve her halükarda başvuru
+                                                tarihinden itibaren 60 (altmış) gün içinde Kişisel Verileri Koruma
+                                                Kurulu’na
+                                                şikayette bulunabilir.
+
+                                                8. HİZMET BEDELİ
+                                                <br>
+                                                ALICI, ön bilgilendirme formunda belirtilen ve www.moviex.com web
+                                                sitesinde
+                                                MOVIEX tarafından açıklanan, ücretli içerik hizmetlerine ilişkin hizmet
+                                                bedellerini bildirilen şekillerde ödemeyi, bu ödemeyi yapmadıkça
+                                                moviex’nin
+                                                sunmuş olduğu hizmetlerden yararlanamayacağını kabul ve taahhüt eder.
+
+                                                moviex her zaman ürün ve/veya hizmet bedellerinde değişiklik yapma
+                                                hakkına
+                                                sahiptir. ALICI, hizmet bedellerinde meydana gelebilecek bu
+                                                değişiklikleri
+                                                kabul etmediği takdirde işbu Sözleşme’yi, güncel bedelin ALICI’dan
+                                                tahsil
+                                                edileceği tarihe kadar feshetmek hakkını haizdir. Bu süre içerisinde
+                                                işbu
+                                                Sözleşme’yi feshetmeyen ALICI, yeni döneme uygulanacak hizmet bedeline
+                                                ilişkin değişikliği kabul etmiş sayılır.
+
+                                                9. DAMGA VERGİSİ
+                                                <br>
+                                                İşbu Sözleşme’nin ALICI tarafından kabul edilmesi halinde, tahakkuk
+                                                edecek
+                                                damga vergisi tutarının yarısı ALICI’nın hizmet bedeli faturasına
+                                                yansıtılarak ALICI’dan tahsil edilecektir.
+
+                                                10. SÖZLEŞMENİN SONA ERMESİ VE FESİH
+                                                <br>
+                                                moviex, tamamen ve tek taraflı kararı ile işbu Sözleşme konusu ürün
+                                                ve/veya
+                                                hizmeti üyelerine sunmaktan vazgeçebilir ve hizmet sunumunu sona
+                                                erdirebilir. Bu durumda ALICI hiçbir nam altında moviex’den herhangi bir
+                                                hak
+                                                veya bedel talep etmeyecektir.
+
+                                                ALICI, Dijital İçerik Hizmetlerini hiçbir şekilde bireysel kullanım
+                                                amacı
+                                                dışında kullanamaz ve /veya kullandıramaz, 3. kişi ve / veya kurumlara
+                                                iletemez, kullandıramaz ve / veya devredemez. moviex tarafından yetkisiz
+                                                bir
+                                                kullanımın tespiti veya bu tür kullanımdan şüphe edilmesi halinde işbu
+                                                Sözleşme kapsamında sunulan hizmetler derhal durdurulabilir ve işbu
+                                                Sözleşme
+                                                hiçbir ihtara gerek kalmaksızın tek taraflı olarak feshedilebilir. Bu
+                                                durumda moviex’nin zararlarının tazminini vesair yasal haklarını talep
+                                                etme
+                                                hakkı saklıdır. İşbu sözleşme konusu haklar ALICI tarafından hiçbir
+                                                surette
+                                                ticari amaçlara konu yapılamaz.
+
+                                                ALICI, işbu Sözleşmeyi feshetmek istediği takdirde moviex’ye yazılı
+                                                bildirimde bulunmak suretiyle üyeliğini sonlandırabilir.
+
+                                                ALICI, tek taraflı olarak üyeliğini sonlandırdığında, işbu Sözleşme
+                                                kapsamında verdiği kişisel verilerinin silinmesini, yok edilmesini veya
+                                                anonim hale getirilmesini talep edebilir. ALICI’nın kişisel verilerinin
+                                                silinmesine, yok edilmesine veya anonimleştirilmesine ilişkin talepler
+                                                moviex Kişisel Verilerin Korunması ve İşlenmesi Politikası tarafından
+                                                öngörülen usul ve esaslara göre değerlendirilir.
+
+                                                11. UYUŞMAZLIKLARIN ÇÖZÜMÜ
+                                                <br>
+                                                İşbu Sözleşmeden kaynaklanabilecek ihtilaflarda İstanbul Merkez
+                                                (Çağlayan)
+                                                Mahkemeleri yetkilidir. Ayrıca ALICI, şikayet ve itirazları konusundaki
+                                                başvurularını, Bakanlıkça her yıl Aralık ayında belirlenen parasal
+                                                sınırlar
+                                                dahilinde mal veya hizmeti satın aldığı veya ikametgahının bulunduğu
+                                                yerdeki
+                                                tüketici sorunları hakem heyetine veya tüketici mahkemesine
+                                                yapabilecektir.
+                                                Kişisel verilere ilişkin taleplerde 6698 sayılı Kanun’un öngördüğü
+                                                şikayet
+                                                ve itiraz usulleri saklıdır.
+
+                                                12. YÜRÜRLÜK
+                                                <br>
+                                                İşbu Sözleşme, ALICI tarafından okunarak, kabul edildiği anda yürürlüğe
+                                                girecek ve Taraflardan herhangi biri tarafından feshedilinceye kadar
+                                                yürürlükte kalacaktır.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-grid col-10 mx-auto">
+                                <button class="btn text-white fw-bold register-button mb-1" type="submit">Kayıt
+                                    Ol</button>
+                            </div>
+                        </div>
+                    </form>
+
+                    <p class="text-center mt-3">Üyeliğiniz var mı ?
+                        <a href="{% url 'LoginUser' %}" class="text-decoration-underline text-primary">GirişYap</a>
+                    </p>
+                </div>
+
+            </div>
+        </div>
+
+    </section>
+</div>
+
+<script>
+    function showPword() {
+        var x = document.getElementsByClassName("password");
+        var eye = document.getElementById('bi-eye')
+        var eyeslash = document.getElementById('bi-eye-slash')
+        for (let i = 0; i < x.length; i++) {
+            if (x[i].type === "password") {
+                x[i].type = "text";
+            } else {
+                x[i].type = "password";
+            }
+        }
+        if (eye.style.display === "none") {
+            eye.style.display = "block"
+            eyeslash.style.display = "none"
+        }
+        else {
+            eye.style.display = "none"
+            eyeslash.style.display = "block"
+        }
+    }
+    function showPword1() {
+        var x = document.getElementsByClassName("password1");
+        var eye1 = document.getElementById('bi-eye1')
+        var eyeslash1 = document.getElementById('bi-eye-slash1')
+        for (let i = 0; i < x.length; i++) {
+            if (x[i].type === "password") {
+                x[i].type = "text";
+            } else {
+                x[i].type = "password";
+            }
+        }
+        if (eye1.style.display === "none") {
+            eye1.style.display = "block"
+            eyeslash1.style.display = "none"
+        }
+        else {
+            eye1.style.display = "none"
+            eyeslash1.style.display = "block"
+        }
+    }
+</script>
+{% endblock body %}

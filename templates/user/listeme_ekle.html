@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+Movies Site/Logged İndex
+{% endblock title %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/girisli_index-style.css' %}">
+{% endblock css %}  
+{% block body %}
+<div class="container">
+        <div class="d-flex justify-content-center align-items-center flex-column">
+            {% if mylist %}
+            <h2 class="text-white mt-5 mb-3">Favoriler</h2>
+            {% else %}
+            <h2 class="text-white my-5">Listende henüz bir içerik yok.
+            İzlemeyi planladığın dizi ve filmleri eklemeye başla.</h2>
+            <a href="{% url 'index' profil.id %}" class="btn btn-light py-2 px-3">Dizi ve Filmleri Keşfet</a>
+            {% endif %}
+        </div>
+    <div class="swiper mySwiper">
+        <div class="swiper-wrapper">
+        {% for i in mylist %}
+        
+        {% if i.series %}
+            <div class="swiper-slide film-card">
+                <div class="img-fluid film-card-hov">
+                    <div style="background-image: url({{ i.series.image.url }});"
+                        class="card col resim">
+                        <div class="info-card">
+                            <div class="film-info ">
+                                <h5 class="text-white film-name">{{ i.series.title }}</h5>
+                                <h6 class="fw-light text-white film-date">20 Nisan</h6>
+                                <p class="fw-light text-white">+ 18</p>
+                                <div
+                                    class="text-white d-inline-flex lang text-center align-items-center d-flex justify-content-center">
+                                    TR
+                                </div>
+                                <div
+                                    class="text-white d-inline-flex ms-2 lang text-center align-items-center d-flex justify-content-center">
+                                    TR
+                                </div>
+                            </div>
+                            <div class="content">
+                                <div class="content-header d-flex justify-content-between">
+                                    <img style="width: 42px;" src="{% static 'img/girişli-anasayfa-img/imdb.svg' %}"
+                                        alt="">
+                                    <p class="content_date text-white mt-3">{{ i.series.year }}</p>
+                                    <p class="text-white content_raiting mt-3">8.5</p>
+                                </div>
+                                <div class="content-main">
+                                    <p class="text-white text-center">{{ i.series.text }}</p>
+                                </div>
+                                <div class="content-footer d-flex justify-content-between">
+                                    
+                                    {% for dizi in seriesvideo %}
+                                    <a href="/Moviex/{{ profil.id }}/WatchSeries/{{ dizi.id }}" class="btn btn-dark btn-play"><i class="fa-solid fa-play"></i> Oynat</a>                                 
+                                        
+                                    {% endfor %}
+                                    
+                                    
+
+                                    <a href="/Moviex/{{ profil.id }}/SeriesDetail/{{ i.series.id }}" id="myBtn" class="btn btn-dark btn-wiew">
+                                        <i class="fa-sharp fa-solid fa-eye"></i>
+                                    </a> 
+                                        <a href="{% url 'ListDel' i.id %}" class="btn btn-dark btn-addFav"><i class="fa-solid fa-minus"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        
+        {% if i.movies %}
+        <div class="swiper-slide film-card">
+            <div class="img-fluid film-card-hov">
+                <div style="background-image: url({{ i.movies.image.url }});"
+                    class="card col resim">
+                    <div class="info-card">
+                        <div class="film-info ">
+                            <h5 class="text-white film-name">{{ i.movies.title }}</h5>
+                            <h6 class="fw-light text-white film-date">20 Nisan</h6>
+                            <p class="fw-light text-white">+ 18</p>
+                            <div
+                                class="text-white d-inline-flex lang text-center align-items-center d-flex justify-content-center">
+                                TR
+                            </div>
+                            <div
+                                class="text-white d-inline-flex ms-2 lang text-center align-items-center d-flex justify-content-center">
+                                TR
+                            </div>
+                        </div>
+                        <div class="content">
+                            <div class="content-header d-flex justify-content-between">
+                                <img style="width: 42px;" src="{% static 'img/girişli-anasayfa-img/imdb.svg' %}"
+                                    alt="">
+                                <p class="content_date text-white mt-3">{{ i.movies.year }}</p>
+                                <p class="text-white content_raiting mt-3">8.5</p>
+                            </div>
+                            <div class="content-main">
+                                <p class="text-white text-center">{{ i.movies.text }}</p>
+                            </div>
+                            <div class="content-footer d-flex justify-content-between">
+                                
+                                {% for film in moviesvideo %}
+					
+                                <a href="/Moviex/{{ profil.id }}/WatchMovie/{{ film.id }}" class="btn btn-dark product-image d-block">FİLMİ İZLE</a>
+                                {% endfor %}
+                                
+                                
+
+                                <a href="/Moviex/{{ profil.id }}/ContentDetail/{{ i.movies.id }}" id="myBtn" class="btn btn-dark btn-wiew">
+                                    <i class="fa-sharp fa-solid fa-eye"></i>
+                                </a> 
+                                    <a href="{% url 'ListDel' i.id %}" class="btn btn-dark btn-addFav"><i class="fa-solid fa-minus"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+            
+        {% endfor %}
+            </div>
+        </div>
+</div>   
+{% endblock body %}
+{% block js %}        
+<script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 2,
+        spaceBetween: 30,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            1200: {
+                slidesPerView: 5,
+            },
+            992: {
+                slidesPerView: 4,
+            },
+            560: {
+                slidesPerView: 3,
+            },
+        }
+    });
+</script>
+{% endblock js %}

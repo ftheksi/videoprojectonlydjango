@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    background: #040814 !important;
+    height: 100%;
+    width: 100%;
+}
+:root {
+  /* COLOR */
+  --partner-1:#112B3C ;
+  --partner-2:#205375 ;
+  --partner-3:#F66B0E ;
+  --partner-4:#EFEFEF ;
+  --partner-5:#082032 ;
+  --partner-6:#2C394B ;
+  --partner-7:#334756 ;
+  --partner-8:#FF4C29 ;
+  --partner-9:#0A0F0F;
+  --partner-10:#CECACA;
+  --yedek-11:#040814;
+
+  /* FONT */
+  --ff-popins:'Popins',sans-serif;
+
+  --fs-1:36px;
+  --fs-2:32px;
+  --fs-3:30px;
+  --fs-4:24px;
+  --fs-5:20px;
+  --fs-6:18px;
+  --fs-7:16px;
+  --fs-8:15px;
+  --fs-9:14px;
+  --fs-10:13px;
+  --fs-11:12px;
+  --fs-12:11px;
+
+  --fw-500: 500;
+  --fw-700: 700;
+
+  /* GECİŞ */
+  --transition-1: 0.15s ease;
+  --transition-2: 0.25s ease-in;
+
+  /* ARALIK */
+  --section-padding: 100px;
+}
+/* AYAR */
+select,button {
+    font: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+    }
+
+    input {
+    font: inherit;
+    width: 100%;
+    border: none;
+    }
+
+  a { text-decoration: none !important; }
+      /* AYAR END */

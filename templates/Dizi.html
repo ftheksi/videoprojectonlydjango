@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/girisli_index-style.css' %}">
+
+{% endblock css %}
+    
+
+
+{% block body %}
+<div class="container-fluid p-0">
+    <div class="banner" id="banner">
+        
+        {% for i in series %}
+        <video id="video" class="banner" autoplay muted loop controls>
+            <source src="{{ i.fragman.url }}" type="video/mp4">
+        </video>      
+        {% endfor %}
+            
+         <div class="banner__contents">
+            <h2 class="banner__title">WEDNESDAY</h2>
+            <div class="banner__infos d-flex mt-1">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                <img class="" src="{% static 'img/girişli-anasayfa-img/Star 2.svg' %}" alt="">
+                
+                <p class="ms-1 banner__date mt-3">2016</p>
+                <i class="fa-regular fa-clock ms-3 mt-3"></i>
+                <p class="banner__time ms-1 mt-3">1sa 4dk</p>
+
+            </div>
+            <div class="banner__desc">
+                Berbat bir şaka yüzünden okuldan atılan Wednesday,anne ve babasının birbirlerine aşık olduğu yatılı bir okul olan Nevermore Akademisine gönderilir.
+            </div>
+
+        </div>
+    </div>
+</div>
+{% comment %} Card {% endcomment %}
+{% include 'part/_card.html' %} 
+
+{% endblock body %}

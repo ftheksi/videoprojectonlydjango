@@ -1,0 +1,96 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+footer {
+    width: 100%;
+    margin-bottom: 0;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    font-family: 'Poppins', sans-serif;
+    overflow: hidden;
+    bottom: 0;
+}
+
+footer .footer-menu ul {
+    list-style-type: none;
+    text-align: left;
+    padding: 0;
+}
+
+footer .footer-menu ul li a {
+    color: #EFEFEF;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 300;
+}
+
+footer .footer-menu ul li a:hover {
+    color: #FF4C29;
+}
+
+footer .bottom-text p {
+    color: #EFEFEF;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+footer .bottom-text p span {
+    color: #FF4C29;
+    opacity: .5;
+    font-weight: 600;
+    font-size: 16px;
+    text-transform: uppercase;
+}
+
+footer .social ul {
+    justify-content: center;
+    align-items: center;
+}
+
+footer .social ul li {
+    list-style-type: none;
+}
+
+footer .social ul li a {
+    font-size: 22px;
+    text-decoration: none;
+    margin: 0 1rem;
+    color: #2175e3fa;
+}
+
+footer .social ul li a:hover {
+    color: #FF4C29;
+}
+
+.dil {
+    margin-bottom: 5px;
+    font-size: 13px;
+    color: #EFEFEF;
+    border: none;
+    border-radius: 5px;
+    font-weight: 500;
+    padding: 6px 5px;
+    width: fit-content; 
+    height: 31px;
+    background-color: #2175e3fa;
+    /* background-image: linear-gradient(#205375, #552bb0); */
+}
+
+.dil:hover {
+    color: #EFEFEF;
+    cursor: pointer;
+    background-color: #FF4C29;
+    /* background-image: linear-gradient(#FF4C29, #624478); */
+}
+.dil select:hover {
+    color: #efefef;
+    background-color: #624478;
+  }
+
+/* responsive */
+
+@media screen and (max-width: 300px) {
+    footer .footer-menu ul li a {
+        font-size: 10px;
+    }
+}
